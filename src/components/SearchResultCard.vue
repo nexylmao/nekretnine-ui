@@ -3,7 +3,7 @@
 		<b-card-text>
 			<b-row>
 				<b-col>
-					<h2>{{ resultCardData.title }}</h2>
+					<RouterLink to=/><h2>{{ resultCardData.title }}</h2></RouterLink>
 					<small>{{ date }}</small><br/>
 					<b-badge v-for="tag in resultCardData.tags" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
 					<h4>{{ resultCardData.location }}</h4>

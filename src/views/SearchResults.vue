@@ -3,7 +3,13 @@
 		<b-card class="search-box-card">
 			<SearchBox/>
 		</b-card>
-		<SearchResultCard v-for="_ in [1, 2, 3, 4, 5]" :key="_"/>
+		<b-row>
+			<b-col cols=8>
+				<SearchResultCard v-for="_ in [1, 2, 3, 4, 5]" :key="_"/>
+			</b-col>
+			<b-col>
+			</b-col>
+		</b-row>
 	</div>
 </template>
 

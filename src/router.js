@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from './views/Landing'
 import SearchResults from './views/SearchResults'
+import RealEstatePage from './views/RealEstatePage'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
 			path: '/search',
 			name: 'search',
 			component: SearchResults
+		},
+		{
+			path: '/realestate',
+			name: 'realestate',
+			component: RealEstatePage
 		},
 		{
 			path: '/about',
