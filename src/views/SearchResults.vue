@@ -4,7 +4,7 @@
 			<SearchBox/>
 		</b-card>
 		<b-row>
-			<b-col cols=8>
+			<b-col cols=8 md=12>
 				<SearchResultCard v-for="_ in [1, 2, 3, 4, 5]" :key="_"/>
 			</b-col>
 			<b-col>
