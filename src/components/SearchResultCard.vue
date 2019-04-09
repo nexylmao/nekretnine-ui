@@ -6,7 +6,7 @@
 					<RouterLink to=/><h2>{{ resultCardData.title }}</h2></RouterLink>
 					<small>{{ date }}</small><br/>
 					<b-badge v-for="tag in resultCardData.tags" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
-					<h4>{{ resultCardData.location }}</h4>
+					<h4>{{ resultCardData.address }}, {{ resultCardData.city }}</h4>
 					<p>{{ resultCardData.shortDescription }}</p>
 				</b-col>
 			</b-row>
@@ -19,7 +19,7 @@
 				</b-col>
 				<b-col>
 					<small>Kvadratura</small>
-					<h4>{{ resultCardData.size }} m<sup>2</sup></h4>
+					<h4>{{ resultCardData.area }} m<sup>2</sup></h4>
 				</b-col>
 			</b-row>
 		</b-card-text>
@@ -38,10 +38,11 @@ export default {
 				title: 'Naslov',
 				date: new Date(),
 				tags: ['dvosoban', 'iznajmljivanje'],
-				location: 'Lokacija',
+				address: 'Veljka Petrovica 8',
+				city: 'Novi Sad',
 				shortDescription: 'Kratak opis',
 				price: 41.53,
-				size: 12.54
+				area: 12.54
 			}
 		}
 	},
@@ -50,7 +51,7 @@ export default {
 			return moment(this.resultCardData.date).format('DD. MM. Y.')
 		},
 		pricePerSquareMeter () {
-			return (this.resultCardData.price / this.resultCardData.size).toFixed(2)
+			return (this.resultCardData.price / this.resultCardData.area).toFixed(2)
 		}
 	}
 }

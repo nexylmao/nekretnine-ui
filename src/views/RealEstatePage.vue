@@ -14,6 +14,48 @@
 						:img-src="url"
 					/>
 				</b-carousel>
+
+				<h1 style="margin-top: 10px; margin-bottom: 10px">{{ realEstateData.title }}</h1>
+
+				<b-card>
+					<b-card-text>
+						<b-row>
+							<b-col>
+								<p>Ulica: <b>{{ realEstateData.address }}</b></p>
+								<p>Grad: <b>{{ realEstateData.city }}</b></p>
+							</b-col>
+							<b-col>
+								<p>Kvadratura: <b>{{ realEstateData.area }} m<sup>2</sup></b></p>
+							</b-col>
+						</b-row>
+					</b-card-text>
+				</b-card>
+
+				<div style="margin-top: 10px; margin-bottom: 10px">
+					<small class="grey-text">Ažuriran: {{ getDate(realEstateData.updatedAt) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Objavljen: {{ getDate(realEstateData.createdAt) }}</small>
+				</div>
+
+				<p>{{ realEstateData.description }}</p>
+
+				<b-card>
+					<b-card-text>
+						<b-row>
+							<b-col>
+								<h3>Kontakt podaci agenta</h3>
+							</b-col>
+						</b-row>
+						<b-row>
+							<b-col>
+								<p>{{ realEstateData.address }}<br/>{{ realEstateData.city }}</p>
+							</b-col>
+							<b-col>
+								<small class="grey-text">Adresa</small>
+								<p>{{ realEstateData.agentPhone }}</p>
+								<b-button variant=primary class="w-100">Pošalji email</b-button>
+							</b-col>
+						</b-row>
+					</b-card-text>
+				</b-card>
 			</b-col>
 			<b-col>
 				<b-card>
@@ -30,7 +72,7 @@
 							<b-col>
 								<h4>{{ realEstateData.agentName }}</h4>
 								<label class="grey-text"><small>Adresa</small></label>
-								<p style="white-space: pre-line">{{ (realEstateData.address).replace(/,/g, '\n').replace(/ *, */g, '\n') }}</p>
+								<p>{{ realEstateData.address }}<br/>{{ realEstateData.city }}</p>
 								<label class="grey-text"><small>Telefon</small></label>
 								<p>{{ realEstateData.agentPhone }}</p>
 								<b-button variant=primary class="w-100">Pošalji email</b-button>
@@ -44,6 +86,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
 	name: 'RealEstatePage',
 	data () {
@@ -54,18 +98,28 @@ export default {
 				'http://placekitten.com/1024/768'
 			],
 			realEstateData: {
+				title: 'Neki vrlo skup stan u Novom Sadu',
 				price: 5931.54,
-				size: 124.00,
+				area: 124.00,
 				agentName: 'Dušan Simić',
-				address: 'Nušićeva 6, Beograd, 11000, Srbija',
 				agentPhone: '0695342091',
-				agentEmail: 'dusansimic@nekreletnine.rs'
+				agentEmail: 'dusansimic@nekreletnine.rs',
+				address: 'Veljka Petrovica 8',
+				city: 'Novi Sad',
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				description: 'U neposrednoj blizini Hrama ,idealan za laboratoriju ,ordinaciju ,kancelarije.. Moguc dogovor. Nase usluge iznose 50% od visine prve mesecne zakupnine.'
 			}
 		}
 	},
 	computed: {
 		pricePerSquareMeter () {
-			return (this.realEstateData.price / this.realEstateData.size).toFixed(2)
+			return (this.realEstateData.price / this.realEstateData.area).toFixed(2)
+		}
+	},
+	methods: {
+		getDate (dateTime) {
+			return moment(dateTime).format('DD. MM. Y.')
 		}
 	}
 }
