@@ -7,7 +7,7 @@
 		<b-collapse is-nav id="nav_collapse">
 			<b-navbar-nav class="ml-auto">
 				<div v-if="!userLoggedIn">
-					<b-nav-item to="/login">Login</b-nav-item>
+					<b-nav-item @click="onLoginButtonClick">Login</b-nav-item>
 				</div>
 				<div v-else>
 					<b-nav-item-dropdown text="User" right>
@@ -26,6 +26,11 @@ export default {
 	data () {
 		return {
 			userLoggedIn: false
+		}
+	},
+	methods: {
+		onLoginButtonClick () {
+			this.$emit('loginButtonClicked')
 		}
 	},
 	mounted () {

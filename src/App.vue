@@ -1,9 +1,10 @@
 <template>
 	<div id="app">
-		<NavBar />
+		<NavBar @loginButtonClicked="showLoginModal = true"/>
 		<b-row id="router-row">
 			<b-col/>
 			<b-col xl=8 lg=8 md=8>
+				<LoginModal @modalHidden="showLoginModal = false" :showModal="showLoginModal"/>
 				<RouterView/>
 			</b-col>
 			<b-col/>
@@ -15,12 +16,19 @@
 <script>
 import NavBar from '@/components/NavBar'
 import Footer from '@/components/Footer'
+import LoginModal from '@/components/LoginModal'
 
 export default {
 	name: 'App',
 	components: {
 		NavBar,
-		Footer
+		Footer,
+		LoginModal
+	},
+	data () {
+		return {
+			showLoginModal: false
+		}
 	}
 }
 </script>
