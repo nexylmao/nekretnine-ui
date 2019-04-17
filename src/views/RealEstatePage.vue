@@ -26,6 +26,7 @@
 							</b-col>
 							<b-col>
 								<p>Kvadratura: <b>{{ realEstateData.area }} m<sup>2</sup></b></p>
+								<p>Tagovi: <b-badge v-for="tag in realEstateData.tags" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge></p>
 							</b-col>
 						</b-row>
 					</b-card-text>
@@ -35,7 +36,10 @@
 					<small class="grey-text">Ažuriran: {{ getDate(realEstateData.updatedAt) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Objavljen: {{ getDate(realEstateData.createdAt) }}</small>
 				</div>
 
-				<p>{{ realEstateData.description }}</p>
+				<div style="margin-top: 20px; margin-bottom: 20px">
+					<h3>Opis</h3>
+					<p>{{ realEstateData.description }}</p>
+				</div>
 
 				<b-card>
 					<b-card-text>
@@ -46,7 +50,8 @@
 						</b-row>
 						<b-row>
 							<b-col>
-								<p>{{ realEstateData.address }}<br/>{{ realEstateData.city }}</p>
+								<p>Ulica: {{ realEstateData.address }}</p>
+								<p>Mesto: {{ realEstateData.city }}</p>
 							</b-col>
 							<b-col>
 								<small class="grey-text">Adresa</small>
@@ -108,6 +113,7 @@ export default {
 				city: 'Novi Sad',
 				createdAt: new Date(),
 				updatedAt: new Date(),
+				tags: ['dvosoban', 'iznajmljivanje'],
 				description: 'U neposrednoj blizini Hrama ,idealan za laboratoriju ,ordinaciju ,kancelarije.. Moguc dogovor. Nase usluge iznose 50% od visine prve mesecne zakupnine.'
 			}
 		}

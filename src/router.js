@@ -4,8 +4,8 @@ import Landing from './views/Landing'
 import SearchResults from './views/SearchResults'
 import RealEstatePage from './views/RealEstatePage'
 import Login from './views/Login'
-import Register from './views/Register'
 import AdminAddEmail from './views/admin/AddEmail'
+import Profile from './views/Profile'
 
 Vue.use(Router)
 
@@ -41,9 +41,9 @@ export default new Router({
 			component: Login
 		},
 		{
-			path: '/register',
-			name: 'register',
-			component: Register
+			path: '/profile',
+			name: 'profile',
+			component: Profile
 			// props: registerProps
 		},
 		{
