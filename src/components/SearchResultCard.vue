@@ -3,10 +3,9 @@
 		<b-card-text v-if="small">
 			<b-row>
 				<b-col>
-					<RouterLink to="/"><h2>{{ data.title }}</h2></RouterLink>
+					<RouterLink to="/realestate"><h2>{{ data.title }}</h2></RouterLink>
 					<small>{{ date }}</small><br/>
 					<b-badge v-for="tag in data.tags" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
-					<!-- <h5>{{ data.address }}, {{ data.city }}</h5> -->
 				</b-col>
 				<b-col>
 					<small>Cena</small>
@@ -22,7 +21,7 @@
 		<b-card-text v-else>
 			<b-row>
 				<b-col>
-					<RouterLink to=/><h2>{{ data.title }}</h2></RouterLink>
+					<RouterLink to="/realestate"><h2>{{ data.title }}</h2></RouterLink>
 					<small>{{ date }}</small><br/>
 					<b-badge v-for="tag in data.tags" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
 					<h4>{{ data.address }}, {{ data.city }}</h4>

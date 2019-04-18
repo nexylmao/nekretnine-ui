@@ -75,7 +75,7 @@
 						<hr/>
 						<b-row>
 							<b-col>
-								<h4>{{ realEstateData.agentName }}</h4>
+								<RouterLink to="/profile"><h4>{{ realEstateData.agentName }}</h4></RouterLink>
 								<label class="grey-text"><small>Adresa</small></label>
 								<p>{{ realEstateData.address }}<br/>{{ realEstateData.city }}</p>
 								<label class="grey-text"><small>Telefon</small></label>

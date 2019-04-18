@@ -12,7 +12,7 @@
 				<div v-else>
 					<b-nav-item-dropdown text="User" right>
 						<b-dropdown-item to="/profile">Profile</b-dropdown-item>
-						<b-dropdown-item>Logout</b-dropdown-item>
+						<b-dropdown-item @click="onLogoutButtonClick">Logout</b-dropdown-item>
 					</b-nav-item-dropdown>
 				</div>
 			</b-navbar-nav>
@@ -31,6 +31,9 @@ export default {
 	methods: {
 		onLoginButtonClick () {
 			this.$emit('loginButtonClicked')
+		},
+		onLogoutButtonClick () {
+			this.userLoggedIn = false
 		}
 	},
 	mounted () {

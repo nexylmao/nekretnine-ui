@@ -14,6 +14,6 @@
 			<b-form-input id="priceMaxInput" type="number" required placeholder="Do"></b-form-input>
 		</b-form-group>
 		&nbsp;&nbsp;&nbsp;
-		<b-button type="submit" :variant="this.$route.name === 'landing' ? 'light' : 'danger'" size=lg>Traži</b-button>
+		<b-button type="submit" :variant="this.$route.name === 'landing' ? 'light' : 'danger'" size=lg to="/search">Traži</b-button>
 	</b-form>
 </template>
