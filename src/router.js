@@ -4,6 +4,7 @@ import Landing from './views/Landing'
 import SearchResults from './views/SearchResults'
 import RealEstatePage from './views/RealEstatePage'
 import Login from './views/Login'
+import Register from './views/Register'
 import AdminAddEmail from './views/admin/AddEmail'
 import Profile from './views/Profile'
 
@@ -39,6 +40,12 @@ export default new Router({
 			path: '/login',
 			name: 'login',
 			component: Login
+		},
+		{
+			path: '/register',
+			name: 'register',
+			component: Register,
+			props: registerProps
 		},
 		{
 			path: '/profile',

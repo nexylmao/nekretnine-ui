@@ -30,7 +30,7 @@
 							b-form-input(id="phoneNumberInput" v-model="registerData.phoneNumber" type="text" required)
 						b-form-group(id="profileDescriptionInputGroup" label="Profile description:" label-for="profileDescriptionInput")
 							b-form-textarea(id="profileDescriptionInput" v-model="registerData.profileDescription" placeholder="Write about yourself..." rows=3 max-rows=6)
-						b-button(type="submit" variant="primary" class="w-25 float-right") Continue
+						b-button(type="submit" variant="primary" class="w-25 float-right" @click="onContinueButtonClick") Continue
 			b-col
 </template>
 
@@ -56,6 +56,11 @@ export default {
 				phoneNumber: '',
 				profileDescription: ''
 			}
+		}
+	},
+	methods: {
+		onContinueButtonClick () {
+			console.log(this.registerData)
 		}
 	},
 	mounted () {
