@@ -19,6 +19,8 @@ library.add(
 Vue.use(BootstrapVue)
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 
+Vue.prototype.$SERVER_PATH = 'https://nekretnine-server.herokuapp.com'
+
 Vue.config.productionTip = false
 
 new Vue({
