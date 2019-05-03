@@ -39,7 +39,8 @@ export default {
 		}
 	},
 	computed: {
-		/* Ovo ovde je computed varijabla sa geterom
+		/*
+		 * Ovo ovde je computed varijabla sa geterom
 		 * i seterom. Generalno computed su samo geteri
 		 * ali zato sto se i setuje (koristim za emitter)
 		 * onda mora imati i seter. Ovde ne bi trebalo
