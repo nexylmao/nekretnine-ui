@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from './views/Landing'
 import SearchResults from './views/SearchResults'
-import RealEstatePage from './views/RealEstatePage'
+import RealEstatePage from './views/realestate/RealEstatePage'
+import AddRealEstate from './views/realestate/AddRealEstate'
+import EditRealEstate from './views/realestate/EditRealEstate'
 import Login from './views/Login'
 import Register from './views/Register'
 import AdminAddEmail from './views/admin/AddEmail'
@@ -35,6 +37,16 @@ export default new Router({
 			path: '/realestate',
 			name: 'realestate',
 			component: RealEstatePage
+		},
+		{
+			path: '/realestate/add',
+			name: 'addrealestate',
+			component: AddRealEstate
+		},
+		{
+			path: '/realestate/edit',
+			name: 'editrealestate',
+			component: EditRealEstate
 		},
 		{
 			path: '/login',

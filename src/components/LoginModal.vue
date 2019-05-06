@@ -10,7 +10,8 @@
 </template>
 
 <script>
-/* Nemoj mi verovati na rec da se ovako poziva
+/*
+ * Nemoj mi verovati na rec da se ovako poziva
  * ova biblioteka tako da ako ti bude trebala
  * proveri za svaki slucaj kako se poziva jer
  * Vue taba kroz neki babel il neki kurac pa
@@ -35,7 +36,8 @@ export default {
 		}
 	},
 	computed: {
-		/* Ista prica kao u navbar za computed.
+		/*
+		 * Ista prica kao u navbar za computed.
 		 * Samo sto ovde se gleda dal je treba prikazati
 		 * modal ili ne.
 		 */
@@ -51,7 +53,8 @@ export default {
 		}
 	},
 	methods: {
-		/* Sada se ovde baca ona logika za logovanje
+		/*
+		 * Sada se ovde baca ona logika za logovanje
 		 * korisnika. Tu mozes isto i ako neke tokene
 		 * treba sredjivati umesto u app.vue.
 		 * Mislim da je jasno kod logina koje podatke saljes.

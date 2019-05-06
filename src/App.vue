@@ -32,7 +32,8 @@ export default {
 		}
 	},
 	methods: {
-		/* Ovde ide magija koja se tice toga sta raditi nakon
+		/*
+		 * Ovde ide magija koja se tice toga sta raditi nakon
 		 * sto je korisnik ulogovan. Generalno tu ne treba
 		 * nista dodavati ali ako nesto treba oko cuvanja tokena
 		 * i tako toga, to se stavlja ovde.
@@ -45,7 +46,8 @@ export default {
 			window.localStorage.setItem('userLoggedIn', true)
 			this.$router.push({ name: 'landing' })
 		},
-		/* Ovde ide magija sta raditi kada je kliknuto dugme
+		/*
+		 * Ovde ide magija sta raditi kada je kliknuto dugme
 		 * logout. Naci ne sta se desava nakon sto je odlogovan
 		 * Nego sta se desava kad je dugme kliknuto. Ako nesto
 		 * oko ovoga treba, tu se stavlja.
