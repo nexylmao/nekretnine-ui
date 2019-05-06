@@ -20,6 +20,24 @@ Vue.use(BootstrapVue)
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 
 Vue.prototype.$SERVER_PATH = 'https://nekretnine-server.herokuapp.com'
+Vue.prototype.$DEFAULT_PROFILE = 'https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg'
+Vue.prototype.$DEFAULT_REALESTATE = 'https://png.pngtree.com/png-vector/20190121/ourlarge/pngtree-vector-house-icon-png-image_332900.jpg'
+Vue.prototype.$NEIGHBORHOODS = {
+	'Suburbs': 'Predgrađe',
+	'Center': 'Centar',
+	'Campus': 'Univerzitetsko naselje',
+	'Apartment Complex': 'Stambeni kompleks',
+	'Village': 'Selo',
+	'Farm': 'Farma',
+	'Mountain Side': 'Planinsko naselje',
+	'Beach': 'Plaža',
+	'Old Town': 'Stari grad',
+	'Downtown': 'Centar grada',
+	'Ethnic': 'Etno naselje',
+	'Resort': 'Turisticko naselje',
+	'Gated Community': 'Zajednica',
+	'Industrial': 'Industrijsko naselje'
+}
 
 Vue.config.productionTip = false
 

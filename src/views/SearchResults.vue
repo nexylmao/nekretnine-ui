@@ -1,13 +1,11 @@
 <template>
   <div>
-    <b-card class="search-box-card">
-      <SearchBox/>
-    </b-card>
+    <b-jumbotron header="Nekretnine" lead="Przo, lako, jeftino, dodjite do nekretnina. Sve na jednom mestu!" bg-variant="secondary" text-variant="white" border-variant="dark" id="landing-jumbotron">
+			<SearchBox v-on:result="showResults"/>
+		</b-jumbotron>
     <b-row>
-      <b-col cols=8 md=12>
+      <b-col class="mx-auto" sm=12 md=10 lg=8>
         <SearchResultCard v-for="searchResult in searchResults" :key="searchResult.id" :data="searchResult"/>
-      </b-col>
-      <b-col>
       </b-col>
     </b-row>
   </div>
@@ -23,32 +21,29 @@ export default {
 		SearchBox,
 		SearchResultCard
 	},
-	mounted: function () {
-		fetch(this.$SERVER_PATH + '/realEstate/', {
-			mode: 'cors',
-			headers: {
-				'content-type': 'application/json'
-			},
-			credentials: 'include'
-		})
-			.then(response => response.json())
-			.then(json => {
-				this.searchResults = json
-			})
-			.catch(err => {
-				console.log(err)
-			})
-	},
 	data () {
 		return {
 			searchResults: []
+		}
+	},
+	methods: {
+		showResults (data) {
+			this.searchResults = data
 		}
 	}
 }
 </script>
 
 <style>
-  .search-box-card {
-    margin-bottom: 10px;
-  }
+.search-box-card {
+	margin-bottom: 10px;
+}
+
+#landing-jumbotron {
+	text-align: center;
+	padding-bottom: 2rem;
+}
+.search-box {
+	text-align: left;
+}
 </style>

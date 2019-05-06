@@ -3,7 +3,7 @@
 		b-col
 		b-col(cols=8)
 			div(style="margin-top: 100px; margin-bottom: 100px")
-				p(style="font-size: 18px; font-weight: bold; text-align: center") MIT © Dušan Simić
+				p(style="font-size: 18px; font-weight: bold; text-align: center") 2019. MIT © Dušan Simić, Nenad Vuletić
 		b-col
 </template>
 

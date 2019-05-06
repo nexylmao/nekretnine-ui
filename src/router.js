@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Landing from './views/Landing'
+// import Landing from './views/Landing'
 import SearchResults from './views/SearchResults'
 import RealEstatePage from './views/realestate/RealEstatePage'
 import AddRealEstate from './views/realestate/AddRealEstate'
@@ -26,11 +26,6 @@ export default new Router({
 		{
 			path: '/',
 			name: 'landing',
-			component: Landing
-		},
-		{
-			path: '/search',
-			name: 'search',
 			component: SearchResults
 		},
 		{

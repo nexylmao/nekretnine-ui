@@ -1,19 +1,24 @@
 <template>
-	<b-card :img-src="data.imgSrc" img-left class="search-result-card" :img-height="small ? '150px' : null">
+	<b-card id="thumbnail" :img-src="data.imgSrc || $DEFAULT_REALESTATE" img-left class="search-result-card" :img-height="'300px'" :img-width="'300px'">
     <b-row>
       <b-col>
-        <RouterLink to="/realestate"><h2>{{ data.realEstate.address }}, {{ data.realEstate.city }}</h2></RouterLink>
-        <small>{{ date }}</small><br/>
-        <b-badge v-for="tag in data.realEstate.categories" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
-        <p>{{ data.realEstate.neighborhood }}</p>
+        <RouterLink :to="'/realestate?id=' + data.id"><h2>{{ data.realEstate.address }}, {{ data.realEstate.city }}</h2></RouterLink>
+				<b-btn>
+					<img id="smallProfile" :src="data.agent.link || this.$DEFAULT_PROFILE"/>
+					<small>{{data.agent.firstName + ' ' + data.agent.lastName}} </small>
+				</b-btn>
+				<br/>
+				<small>{{ date }}</small><br/>
+        <b-badge v-for="tag in data.realEstate.categories.split(';')" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
+        <p>{{ this.$NEIGHBORHOODS[data.realEstate.neighborhood] }}</p>
       </b-col>
     </b-row>
 
     <b-row align-h="between">
       <b-col>
         <small>Cena:</small>
-        <h4>{{ data.realEstate.price }} din</h4>
-        <small>{{ pricePerSquareMeter }} din/m<sup>2</sup></small>
+        <h4>{{ data.realEstate.price }} €</h4>
+        <small>{{ pricePerSquareMeter }} €/m<sup>2</sup></small>
       </b-col>
       <b-col>
         <small>Kvadratura</small>
@@ -28,6 +33,11 @@ import moment from 'moment'
 
 export default {
 	name: 'SearchResultCard',
+	data () {
+		return {
+			testImages: ['https://placekitten.com/200/300', 'https://placebear.com/200/300', 'https://baconmockup.com/200/300/']
+		}
+	},
 	props: {
 		small: {
 			type: Boolean,
@@ -53,5 +63,12 @@ export default {
 <style>
 .search-result-card {
 	margin-bottom: 10px;
+}
+
+#smallProfile {
+	margin-right: 10px;
+	height: 25px;
+	width: 25px;
+	border-radius: 50%;
 }
 </style>
