@@ -22,6 +22,10 @@ Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 Vue.prototype.$SERVER_PATH = 'https://nekretnine-server.herokuapp.com'
 Vue.prototype.$DEFAULT_PROFILE = 'https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg'
 Vue.prototype.$DEFAULT_REALESTATE = 'https://png.pngtree.com/png-vector/20190121/ourlarge/pngtree-vector-house-icon-png-image_332900.jpg'
+Vue.prototype.$ROLES = {
+	1: 'admin',
+	0: 'user'
+}
 Vue.prototype.$NEIGHBORHOODS = {
 	'Suburbs': 'Predgrađe',
 	'Center': 'Centar',

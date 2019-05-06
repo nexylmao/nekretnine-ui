@@ -23,6 +23,15 @@
 			<b-form-group :label="'\0'">
 				<b-button type="button" v-on:click="search" variant="light">Traži</b-button>
 			</b-form-group>
+			<b-form-group :label="'\0'">
+				<b-select>
+					<!-- <option v-on:click="restartSort()"></option> -->
+					<option v-on:click="sortPriceAscending()">Sortiraj po ceni - Rastuće</option>
+					<option v-on:click="sortPriceDescending()">Sortiraj po ceni - Opadajuće</option>
+					<option v-on:click="sortAreaAscending()">Sortiraj po kvadraturi - Rastuće</option>
+					<option v-on:click="sortAreaDescending()">Sortiraj po kvadraturi - Opadajuće</option>
+				</b-select>
+			</b-form-group>
 		</b-form>
 		<div v-if="loading" id="progress">
 			<b-spinner variant="light" />
@@ -48,7 +57,8 @@ export default {
 			queries: null,
 			loading: false,
 			errorMessage: null,
-			categories: null
+			categories: null,
+			estate: null
 		}
 	},
 	methods: {
@@ -81,6 +91,7 @@ export default {
 					return response.json()
 				})
 				.then(json => {
+					this.estate = json
 					this.loading = false
 					this.$emit('result', json)
 					if (!this.categories) {
@@ -114,6 +125,31 @@ export default {
 				newOption.text = option
 				select.add(newOption)
 			})
+		},
+		restartSort () {
+			if (this.estate) {
+				this.$emit('result', this.estate)
+			}
+		},
+		sortPriceAscending () {
+			if (this.estate) {
+				this.$emit('result', this.estate.sort((x, y) => x.realEstate.price - y.realEstate.price))
+			}
+		},
+		sortPriceDescending () {
+			if (this.estate) {
+				this.$emit('result', this.estate.sort((x, y) => y.realEstate.price - x.realEstate.price))
+			}
+		},
+		sortAreaAscending () {
+			if (this.estate) {
+				this.$emit('result', this.estate.sort((x, y) => x.realEstate.area - y.realEstate.area))
+			}
+		},
+		sortAreaDescending () {
+			if (this.estate) {
+				this.$emit('result', this.estate.sort((x, y) => y.realEstate.area - x.realEstate.area))
+			}
 		}
 	},
 	mounted () {
