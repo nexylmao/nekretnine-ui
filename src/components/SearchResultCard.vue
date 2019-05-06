@@ -6,10 +6,12 @@
 			</b-col>
       <b-col sm=12 md=6 lg=4>
         <RouterLink :to="'/realestate?id=' + data.id"><h2>{{ data.realEstate.address }}, {{ data.realEstate.city }}</h2></RouterLink>
-				<b-btn v-if="data.agentId">
-					<img id="smallProfile" :src="data.agent.link || this.$DEFAULT_PROFILE"/>
-					<small>{{data.agent.firstName + ' ' + data.agent.lastName}} </small>
-				</b-btn>
+				<RouterLink :to="'/profile?id=' + data.agentId">
+					<b-btn v-if="data.agentId" >
+						<img id="smallProfile" :src="data.agent.link || this.$DEFAULT_PROFILE"/>
+						<small>{{data.agent.firstName + ' ' + data.agent.lastName}} </small>
+					</b-btn>
+				</RouterLink>
 				<br/>
 				<small>{{ date }}</small><br/>
         <b-badge v-for="tag in data.realEstate.categories.split(';')" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
@@ -28,7 +30,8 @@
 			</b-col>
 			<b-col sm=12 md=6 lg=4 v-else>
 				<b-card bg-variant="danger" text-variant="light">
-					PRODATO
+					<h4>PRODATO</h4>
+					{{ soldOn }}
 				</b-card>
 			</b-col>
     </b-row>
@@ -59,6 +62,9 @@ export default {
 	computed: {
 		date () {
 			return moment(this.data.realEstate.createdAt).format('DD. MM. Y.')
+		},
+		soldOn () {
+			return moment(this.data.sale.saleDate).format('DD. MM. Y.')
 		},
 		pricePerSquareMeter () {
 			return (this.data.realEstate.price / this.data.realEstate.area).toFixed(2)

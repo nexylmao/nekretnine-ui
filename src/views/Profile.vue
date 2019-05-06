@@ -1,100 +1,121 @@
-<template lang="pug">
-	div
-		b-row
-			b-col(xl=3 lg=3 md=12)
-				b-img(thumbnail fluid :src="profileInfo.profilePhoto" class="w-100")
-				h2 {{ profileInfo.firstName}} {{ profileInfo.lastName }}
-				h4 {{ profileInfo.username }}
-				p {{ profileInfo.profileDescription }}
-				br
-				FontAwesomeIcon(icon="map-marker-alt")
-				label &nbsp;&nbsp;{{ profileInfo.location }}
-				br
-				FontAwesomeIcon(icon="envelope")
-				label &nbsp;&nbsp;{{ profileInfo.email}}
-
-				b-button(variant="primary" class="w-100") Edit
-			b-col
-				SearchResultCard(small v-for="searchResult in searchResults" :key="searchResult.title" :data="searchResult")
+<template>
+	<div>
+		<b-row>
+			<b-card class="mx-auto" v-if="errorMessage" bg-variant="danger" text-variant="light">
+				<h4> {{ errorMessage }} </h4>
+			</b-card>
+		</b-row>
+		<b-row>
+			<div v-if="loading" id="progress" class="mx-auto">
+				<b-spinner variant="dark" />
+			</div>
+		</b-row>
+		<b-row>
+			<b-col md=12 lg=3 v-if="agent">
+				<b-img thumbnail fluid :src="agent.link || $DEFAULT_PROFILE" class="w-100" />
+				<h2> {{ agent.firstName + ' ' + agent.lastName }} </h2>
+				<h4> {{ account.username }} </h4>
+				<p> {{ agent.profileDescription }} </p>
+			</b-col>
+			<b-col>
+				<b-card v-if="stats" class="my-3">
+					<h3>Statistika</h3>
+					<h6 class="mx-auto"> {{ 'ukupno postavljenih nekretnina : ' + stats.RealEstateCount }} </h6>
+					<h6 class="mx-auto"> {{ 'prodatih nekretnina : ' + stats.SalesCount }} </h6>
+				</b-card>
+				<b-card v-if="realEstates" class="mb-3">
+					<SearchBox />
+				</b-card>
+				<SearchResultCard v-for="estate in realEstates" v-bind:key="estate.id" :data="estate" />
+			</b-col>
+		</b-row>
+	</div>
 </template>
 
 <script>
+import SearchBox from '@/components/SearchBox'
 import SearchResultCard from '@/components/SearchResultCard'
 
 export default {
 	name: 'Profile',
 	components: {
+		SearchBox,
 		SearchResultCard
 	},
 	data () {
 		return {
-			profileInfo: {
-				profilePhoto: 'https://nekretnineslike.blob.core.windows.net/profile/5cb23b394914907f102bc00b.png.thumbnail',
-				firstName: 'Dušan',
-				lastName: 'Simić',
-				username: 'dusansimic',
-				email: 'simic.dusan@jjzmaj.edu.rs',
-				profileDescription: 'Ovo je opis profila. Tu ce agenti moci da napisu sta zele o njima i to ce moci da vide svi korisnici ovog sajta.',
-				location: 'Novi Sad, Serbia'
-			},
-			searchResults: [
-				{
-					title: 'SAVRŠEN PORODIČNI SA POGLEDOM NA HRAM',
-					imgSrc: 'https://nekretnineslike.blob.core.windows.net/profile/5cb23b394914907f102bc00b.png.thumbnail',
-					createdAt: new Date(),
-					tags: ['Trosoban stan', 'Prodaja'],
-					address: 'Neimar',
-					city: 'Beograd',
-					shortDescription: 'UKNJIŽEN Trosoban stan, 80m2 (76m2+ loda + terasa), u održavanoj zgradi sa dva lifta . Odlicno pozicioniran Savršena veze za sve delove grada Odličan...',
-					price: 12980550,
-					area: 80
-				},
-				{
-					title: 'Savršen za Sve Namene u Centru sa Parkingom',
-					imgSrc: 'https://nekretnineslike.blob.core.windows.net/profile/5cb23b394914907f102bc00b.png.thumbnail',
-					createdAt: new Date(),
-					tags: ['Četvorosoban stan', 'Prodaja'],
-					address: 'Takovska, Centar',
-					city: 'Beograd',
-					shortDescription: 'PROSTRAN SVETAO SAVRŠEN STAN U CENTRU - PREPORUKA ! Prelep četvorosoban, održavan porodični stan u zgradi kakve više ne prave, sa dva stana na spratu,...',
-					price: 25371075,
-					area: 110
-				},
-				{
-					title: 'Lux Stan u Lux Zgradi na Savršenoj Lokaciji na Neimaru Za Preporuku!',
-					imgSrc: 'https://nekretnineslike.blob.core.windows.net/profile/5cb23b394914907f102bc00b.png.thumbnail',
-					createdAt: new Date(),
-					tags: ['Trosoban stan', 'Prodaja'],
-					address: 'Hadži Milentijeva, Neimar',
-					city: 'Beograd',
-					shortDescription: 'Savršen, retko dobar dvoiposoban stan u vrlo kvalitetnij zgradi iz 2010.godine. sa pikovanom fasadom, mermernim ulazom, gde se nije stedelo na izolaci...',
-					price: 20060850,
-					area: 68
-				},
-				{
-					title: 'Izuzetan Porodični na Prvom spratu sa Pogledom na Park Uknjižen Odmah Useljiv',
-					imgSrc: 'https://nekretnineslike.blob.core.windows.net/profile/5cb23b394914907f102bc00b.png.thumbnail',
-					createdAt: new Date(),
-					tags: ['Trosoban stan', 'Prodaja'],
-					address: 'Rudo, Zvezdara',
-					city: 'Beograd',
-					shortDescription: 'Savršen, retko dobar dvoiposoban stan u vrlo kvalitetnij zgradi iz 2010.godine. sa pikovanom fasadom, mermernim ulazom, gde se nije stedelo na izolaci...',
-					price: 10502445,
-					area: 92
-				},
-				{
-					title: 'Retko Dobar u Centru u Mirnoj Ulici sa Drvoredom Uknjižen Odmah Useljiv',
-					imgSrc: 'https://nekretnineslike.blob.core.windows.net/profile/5cb23b394914907f102bc00b.png.thumbnail',
-					createdAt: new Date(),
-					tags: ['Trosoban stan', 'Prodaja'],
-					address: 'Đušina, Tašmajdan',
-					city: 'Beograd',
-					shortDescription: 'Izuzetan trosoban porodični stan na Konjarniku kod Aviv Parka, savršeno pozicioniran, funkcionalan, odličnog rasporeda, idealan za porodicu sa malom d...',
-					price: 21004890,
-					area: 94
-				}
-			]
+			loading: false,
+			errorMessage: null,
+			id: null,
+			agent: null,
+			account: null,
+			stats: null,
+			realEstates: null
 		}
+	},
+	methods: {
+		getAgent () {
+			this.loading = true
+			fetch(this.$SERVER_PATH + '/agent/id/' + this.id, {
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					if (response.status !== 200) {
+							throw {
+								message: 'Nije pronadjen agent.'
+							}
+						}
+					return response.json()
+				})
+				.then(json => {
+					this.loading = false
+					this.agent = json.agent
+					this.account = json.account
+					this.stats = json.stats
+				})
+				.catch(err => {
+					console.error(err)
+					this.loading = false
+					this.errorMessage = err.message
+				})
+		},
+		getRealEstate () {
+			this.loading = true
+			fetch(this.$SERVER_PATH + '/realEstate/agent/' + this.id, {
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					if (response.status !== 200) {
+							throw {
+								message: 'Nije pronadjen agent.'
+							}
+						}
+					return response.json()
+				})
+				.then(json => {
+					this.loading = false
+					this.realEstates = json
+				})
+				.catch(err => {
+					this.loading = false
+					this.errorMessage = err.message
+					console.error(err)
+				})
+		}
+	},
+	mounted () {
+		this.id = this.$route.query.id
+		this.errorMessage = null
+		this.getAgent()
+		this.getRealEstate()
 	}
 }
 </script>

@@ -25,7 +25,6 @@
 			</b-form-group>
 			<b-form-group :label="'\0'">
 				<b-select>
-					<!-- <option v-on:click="restartSort()"></option> -->
 					<option v-on:click="sortPriceAscending()">Sortiraj po ceni - Rastuće</option>
 					<option v-on:click="sortPriceDescending()">Sortiraj po ceni - Opadajuće</option>
 					<option v-on:click="sortAreaAscending()">Sortiraj po kvadraturi - Rastuće</option>
