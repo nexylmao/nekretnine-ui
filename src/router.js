@@ -7,6 +7,7 @@ import AddRealEstate from './views/realestate/AddRealEstate'
 import EditRealEstate from './views/realestate/EditRealEstate'
 import Login from './views/Login'
 import Register from './views/Register'
+import RegisterAgent from './views/RegisterAgent'
 import AdminAddEmail from './views/admin/AddEmail'
 import Profile from './views/Profile'
 
@@ -52,6 +53,12 @@ export default new Router({
 			path: '/register',
 			name: 'register',
 			component: Register,
+			props: registerProps
+		},
+		{
+			path: '/register/agent',
+			name: 'registeragent',
+			component: RegisterAgent,
 			props: registerProps
 		},
 		{

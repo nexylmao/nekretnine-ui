@@ -8,6 +8,8 @@
 				b-form
 					b-form-group(id="titleInputGroup" label="Title:" label-for="titleInput")
 						b-form-input(id="titleInput" v-model="realEstateData.title" type="text" required)
+					b-form-group(id="imagesInputGroup" label="Images:" label-for="imagesInput")
+						b-form-input(id="imagesInput" v-model="realEstateData.images" type="file" multiple)
 					b-form-group(id="priceInputGroup" label="Price:" label-for="priceInput")
 						b-form-input(id="priceInput" v-model="realEstateData.price" type="number" required)
 					b-form-group(id="areaInputGroup" label="Area:" label-for="areaInput")
@@ -36,7 +38,8 @@ export default {
 				address: '',
 				city: '',
 				tags: '',
-				description: ''
+				description: '',
+				images: null
 			}
 		}
 	},

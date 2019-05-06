@@ -7,6 +7,8 @@
 				b-form
 					b-form-group(id="emailInputGroup" label="Email:" label-for="emailInput")
 						b-form-input(id="emailInput" v-model="inviteData.email" type="email" required)
+					b-form-group(id="adminCheckboxGroup" label="Email:" label-for="emailInput")
+						b-form-checkbox(id="adminCheckbox" v-model="inviteData.isAdmin") Make this user admin
 					b-button(type="submit" variant="primary" class="w-25 float-right") Register
 			b-col
 </template>
@@ -17,7 +19,8 @@ export default {
 	data () {
 		return {
 			inviteData: {
-				email: ''
+				email: '',
+				isAdmin: false
 			}
 		}
 	}
