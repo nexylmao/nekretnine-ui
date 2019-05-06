@@ -1,7 +1,10 @@
 <template>
-	<b-card id="thumbnail" :img-src="data.imgSrc || $DEFAULT_REALESTATE" img-left class="search-result-card" :img-height="'300px'" :img-width="'300px'">
-    <b-row>
-      <b-col>
+	<b-card id="thumbnail" class="search-result-card">
+		<b-row>
+			<b-col sm=12 md=6 lg=4>
+				<img id="photo" :src="data.realEstate.photos ? data.realEstate.photos[0] : $DEFAULT_REALESTATE">
+			</b-col>
+      <b-col sm=12 md=6 lg=4>
         <RouterLink :to="'/realestate?id=' + data.id"><h2>{{ data.realEstate.address }}, {{ data.realEstate.city }}</h2></RouterLink>
 				<b-btn>
 					<img id="smallProfile" :src="data.agent.link || this.$DEFAULT_PROFILE"/>
@@ -12,18 +15,17 @@
         <b-badge v-for="tag in data.realEstate.categories.split(';')" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge>
         <p>{{ this.$NEIGHBORHOODS[data.realEstate.neighborhood] }}</p>
       </b-col>
-    </b-row>
-
-    <b-row align-h="between">
-      <b-col>
-        <small>Cena:</small>
-        <h4>{{ data.realEstate.price }} €</h4>
-        <small>{{ pricePerSquareMeter }} €/m<sup>2</sup></small>
-      </b-col>
-      <b-col>
-        <small>Kvadratura</small>
-        <h4>{{ data.realEstate.area }} m<sup>2</sup></h4>
-      </b-col>
+			<b-col sm=12 md=6 lg=4>
+				<b-col>
+					<small>Cena:</small>
+					<h4>{{ data.realEstate.price }} €</h4>
+					<small>{{ pricePerSquareMeter }} €/m<sup>2</sup></small>
+				</b-col>
+				<b-col>
+					<small>Kvadratura</small>
+					<h4>{{ data.realEstate.area }} m<sup>2</sup></h4>
+				</b-col>
+			</b-col>
     </b-row>
 	</b-card>
 </template>
@@ -63,6 +65,14 @@ export default {
 <style>
 .search-result-card {
 	margin-bottom: 10px;
+}
+
+#photo {
+	object-fit: scale-down;
+	max-height: 300px;
+	height: 100%;
+	max-width: 300px;
+	width: 100%;
 }
 
 #smallProfile {
