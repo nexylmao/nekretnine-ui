@@ -47,7 +47,6 @@ export default {
 		 * su ostali isti pa posalji samo izmenjene.
 		 */
 		onUpdateButtonClick () {
-			
 		}
 	},
 	/*
