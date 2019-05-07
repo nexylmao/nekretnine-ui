@@ -5,7 +5,7 @@
 			<b-col/>
 			<b-col xl=8 lg=8 md=8>
 				<LoginModal @modalHidden="showLoginModal = false" @loggedIn="onLoggedIn" :showModal="showLoginModal"/>
-				<RouterView/>
+				<RouterView :me="me"/>
 			</b-col>
 			<b-col/>
 		</b-row>
@@ -31,6 +31,15 @@ export default {
 			id: null,
 			account: null,
 			agent: null
+		}
+	},
+	computed: {
+		me () {
+			return {
+				id: this.id,
+				account: this.account,
+				agent: this.agent
+			}
 		}
 	},
 	methods: {
@@ -59,7 +68,6 @@ export default {
 					return response.json()
 				})
 				.then(json => {
-					console.log(json)
 					this.id = json.id
 					this.account = json.account
 					this.agent = json.agent
@@ -103,6 +111,7 @@ export default {
 			this.id = null
 			this.account = null
 			this.agent = null
+			this.$router.push('/')
 		}
 	},
 	mounted () {

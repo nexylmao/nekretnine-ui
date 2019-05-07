@@ -10,6 +10,9 @@
 				<b-spinner variant="dark" />
 			</div>
 		</b-row>
+		<b-row sm=12 v-if="me.id == id">
+			<h2 class="mx-auto">Ovo ste vi!</h2>
+		</b-row>
 		<b-row>
 			<b-col md=12 lg=3 v-if="agent">
 				<b-img thumbnail fluid :src="agent.link || $DEFAULT_PROFILE" class="w-100" />
@@ -44,6 +47,7 @@ import SearchResultCard from '@/components/SearchResultCard'
 
 export default {
 	name: 'Profile',
+	props: ['me'],
 	components: {
 		SearchBox,
 		SearchResultCard

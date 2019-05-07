@@ -11,8 +11,10 @@
 				</div>
 				<div v-else>
 					<b-nav-item-dropdown :text="computedText" right>
-						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Profile</b-dropdown-item>
-						<b-dropdown-item class="bg-danger" v-else :to="'/register/agent?id=' + id"><div class="text-white">Prijavi se kao agent</div></b-dropdown-item>
+						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Moj profil</b-dropdown-item>
+						<b-dropdown-item v-else :to="'/register/agent?id=' + id">Prijavi se kao agent</b-dropdown-item>
+						<b-dropdown-divider />
+						<b-dropdown-item>Podesavanje naloga</b-dropdown-item>
 						<b-dropdown-item @click="onLogoutButtonClick">Odloguj se</b-dropdown-item>
 					</b-nav-item-dropdown>
 				</div>

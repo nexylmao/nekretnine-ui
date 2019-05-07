@@ -19,8 +19,6 @@
 							b-form-input(id="firstNameInput" v-model="registerData.firstName" type="text" required)
 						b-form-group(id="lastNameInputGroup" label="Last name:" label-for="lastNameInput")
 							b-form-input(id="lastNameInput" v-model="registerData.lastName" type="text" required)
-						b-form-group(id="imagesInputGroup" label="Images:" label-for="imagesInput")
-							b-form-input(id="imagesInput" v-model="realEstateData.images" type="file")
 						b-form-group(id="phoneNumberInputGroup" label="Phone number:" label-for="phoneNumberInput")
 							b-form-input(id="phoneNumberInput" v-model="registerData.phoneNumber" type="text" required)
 						b-form-group(id="profileDescriptionInputGroup" label="Profile description:" label-for="profileDescriptionInput")
@@ -46,8 +44,7 @@ export default {
 				firstName: '',
 				lastName: '',
 				phoneNumber: '',
-				profileDescription: '',
-				images: null
+				profileDescription: ''
 			}
 		}
 	},
