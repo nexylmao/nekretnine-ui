@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<NavBar @loginButtonClicked="showLoginModal = true" @loggedOut="onLoggedOut" :userLoggedIn="userLoggedIn"/>
+		<NavBar @loginButtonClicked="showLoginModal = true" @loggedOut="onLoggedOut" :userLoggedIn="!!id"/>
 		<b-row id="router-row">
 			<b-col/>
 			<b-col xl=8 lg=8 md=8>
@@ -28,7 +28,9 @@ export default {
 	data () {
 		return {
 			showLoginModal: false,
-			userLoggedIn: false
+			id: null,
+			account: null,
+			agent: null
 		}
 	},
 	methods: {
