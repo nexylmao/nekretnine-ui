@@ -1,12 +1,14 @@
 <template lang="pug">
-	b-modal(title="Login" v-model="computedShowModal" centered)
-		b-form
+	b-modal(title="Login" v-model="computedShowModal" centered hide-footer)
+		b-form(@submit.prevent="onLoginButtonClick")
 			b-form-group(id="usernameEmailLoginInputGroup" label="Username or email:" label-for="usernameEmailLoginInput")
-				b-form-input(id="usernameEmailLoginInput" v-model="loginData.identification" type="email" required placeholder="Enter your username or email")
+				b-form-input(id="usernameEmailLoginInput" v-model="loginData.identification" required placeholder="Enter your username or email")
 			b-form-group(id="passwordLoginInputGroup" label="Password:" label-for="passwordLoginInput")
 				b-form-input(id="passwordLoginInput" v-model="loginData.password" type="password" required)
-		div(slot="modal-footer" class="w-100")
-			b-button(variant="primary" class="float-right" @click="onLoginButtonClick") Login
+			b-card(bg-variant="danger" text-variant="white" class="m-2" v-if="errorMessage") {{ errorMessage }}
+			div(slot="modal-footer" class="w-100")
+				b-button(v-if="!loading" variant="primary" class="float-right" type="submit") Login
+				b-spinner(v-if="loading" variant="dark" class="float-right")
 </template>
 
 <script>
@@ -22,6 +24,8 @@ export default {
 	},
 	data () {
 		return {
+			loading: false,
+			errorMessage: null,
 			loginData: {
 				identification: '',
 				password: ''
@@ -41,21 +45,43 @@ export default {
 		}
 	},
 	methods: {
-		/*
-		 * Sada se ovde baca ona logika za logovanje
-		 * korisnika. Tu mozes isto i ako neke tokene
-		 * treba sredjivati umesto u app.vue.
-		 * Mislim da je jasno kod logina koje podatke saljes.
-		 * Nemam pojma dal zelis da se hesuje ili ne tako da
-		 * to ti ovde radi.
-		 * Ostavicu ti zakomentarisan import biblioteke
-		 * koja ti hashuje u sha256 pa je ti iskoristi ako
-		 * oces. Redovno kao u nodejs direktno pozivas biblioteku
-		 * jer je ovo javascript blok.
-		 */
 		onLoginButtonClick () {
-			console.log(this.loginData)
-			this.$emit('loggedIn', data)
+			this.errorMessage = null
+			this.loading = true
+			fetch(this.$SERVER_PATH + '/login', {
+				method: 'POST',
+				body: JSON.stringify({
+					identification: this.loginData.identification,
+					password: crypto.createHash('sha256').update(this.loginData.password, 'utf8').digest('hex')
+				}),
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					if (response.status === 401) {
+						throw {
+							message: 'Vi ste vec ulogovani.'
+						}
+					}
+					else if (response.status !== 200) {
+						throw {
+							message: 'Ne uspesno prijavljivanje.'
+						}
+					}
+					return response.json()
+				})
+				.then(json => {
+					this.loading = false
+					this.$emit('loggedIn', json)
+				})
+				.catch(err => {
+					console.error(err)
+					this.loading = false
+					this.errorMessage = err.message
+				})
 		}
 	}
 }

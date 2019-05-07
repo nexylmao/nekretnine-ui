@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<NavBar @loginButtonClicked="showLoginModal = true" @loggedOut="onLoggedOut" :userLoggedIn="!!id"/>
+		<NavBar :id="id" :account="account" :agent="agent" @logout="onLoggedOut" @loginButtonClicked="showLoginModal = true"/>
 		<b-row id="router-row">
 			<b-col/>
 			<b-col xl=8 lg=8 md=8>
@@ -34,32 +34,79 @@ export default {
 		}
 	},
 	methods: {
-		/*
-		 * Ovde ide magija koja se tice toga sta raditi nakon
-		 * sto je korisnik ulogovan. Generalno tu ne treba
-		 * nista dodavati ali ako nesto treba oko cuvanja tokena
-		 * i tako toga, to se stavlja ovde.
-		 */
-		onLoggedIn () {
-			// Iskljuci modal za login
-			this.showLoginModal = false
-			// Dal je user ulogovan
-			this.userLoggedIn = true
-			window.localStorage.setItem('userLoggedIn', true)
-			this.$router.push({ name: 'landing' })
+		getAgent () {
+			fetch(this.$SERVER_PATH + '/agent/me', {
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					if (response.status === 404) {
+						this.getAccount()
+					}
+					else if (response.status === 403) {
+						throw {
+							message: 'Niste ulogovani'
+						}
+					}
+					else if (response.status !== 200) {
+						throw {
+							message: 'Nismo mogli da uzmemo podatke o vasem nalogu'
+						}
+					}
+					return response.json()
+				})
+				.then(json => {
+					console.log(json)
+					this.id = json.id
+					this.account = json.account
+					this.agent = json.agent
+				})
+				.catch(err => {
+					console.error(err)
+				})
 		},
-		/*
-		 * Ovde ide magija sta raditi kada je kliknuto dugme
-		 * logout. Naci ne sta se desava nakon sto je odlogovan
-		 * Nego sta se desava kad je dugme kliknuto. Ako nesto
-		 * oko ovoga treba, tu se stavlja.
-		 */
+		getAccount () {
+			fetch(this.$SERVER_PATH + '/me', {
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					if (response.status !== 200) {
+						throw {
+							message: 'Nismo mogli da uzmemo podatke o vasem nalogu'
+						}
+					}
+					return response.json()
+				})
+				.then(json => {
+					this.id = json.id
+					this.account = json.account
+					this.agent = json.agent
+				})
+				.catch(err => {
+					console.error(err)
+				})
+		},
+		onLoggedIn (json) {
+			this.showLoginModal = false
+			this.id = json.id
+			this.account = json.account
+			this.getAgent()
+		},
 		onLoggedOut () {
-			// Dal je user ulogovan
-			this.userLoggedIn = false
-			window.localStorage.setItem('userLoggedIn', false)
-			this.$router.push({ name: 'landing' })
+			this.id = null
+			this.account = null
+			this.agent = null
 		}
+	},
+	mounted () {
+		this.getAgent()
 	}
 }
 </script>

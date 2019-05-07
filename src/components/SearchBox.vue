@@ -1,12 +1,14 @@
 <template>
 	<div>
-		<b-form inline class="justify-content-center search-box">
+		<b-button variant="primary" @click="hidden = !hidden" > {{ hidden ? 'Pokazi filtere' : 'Sakrij filtere' }} </b-button>
+		<b-form v-if="!hidden" inline class="justify-content-center search-box">
 			<b-form-group id="typeInputGroup" label="Tip">
 				<b-select id="typeInput" type="text" v-model="form.type">
 					<option selected value=""></option>
 					<optgroup label="Naselje"/>
 					<option v-for="neighborhood in Object.keys($NEIGHBORHOODS)" v-bind:key="neighborhood" :value="neighborhood">{{$NEIGHBORHOODS[neighborhood]}}</option>
 					<optgroup label="Tip"/>
+					<option v-for="category in select" v-bind:key="category" :value="category"> {{category}} </option>
 				</b-select>
 			</b-form-group>
 			<b-form-group id="locationInputGroup" label="Lokacija">
@@ -56,6 +58,7 @@ export default {
 	props: ['path'],
 	data () {
 		return {
+			hidden: true,
 			form: {
 				location: null,
 				type: null,
@@ -69,7 +72,8 @@ export default {
 			errorMessage: null,
 			categories: null,
 			fetched: null,
-			shown: null
+			shown: null,
+			select: []
 		}
 	},
 	methods: {
@@ -130,12 +134,8 @@ export default {
 			this.fetch()
 		},
 		addTypeOptions (options) {
-			let select = document.getElementById('typeInput')
 			options.forEach(option => {
-				let newOption = document.createElement('option')
-				newOption.value = option
-				newOption.text = option
-				select.add(newOption)
+				this.select.push(option)
 			})
 		},
 		restart () {

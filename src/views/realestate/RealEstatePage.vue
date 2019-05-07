@@ -128,7 +128,6 @@ export default {
 			})
 			.then(json => {
 				this.loading = false
-				console.log(json)
 				this.agentId = json.agentId
 				this.realEstate = json.realEstate
 				this.agent = json.agent
