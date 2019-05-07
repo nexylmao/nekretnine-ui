@@ -13,9 +13,14 @@
 		<b-row>
 			<b-col md=12 lg=3 v-if="agent">
 				<b-img thumbnail fluid :src="agent.link || $DEFAULT_PROFILE" class="w-100" />
-				<h2> {{ agent.firstName + ' ' + agent.lastName }} </h2>
-				<h4> {{ account.username }} </h4>
-				<p> {{ agent.profileDescription }} </p>
+				<div class="p-2">
+					<h2> {{ agent.firstName + ' ' + agent.lastName }} </h2>
+					<h4> <FontAwesomeIcon icon="user"/> {{ account.username }} </h4>
+					<h6> <FontAwesomeIcon icon="envelope"/> &nbsp;<a :href="'mailto:' + account.email"> {{account.email}} </a> </h6>
+					<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ agent.phone }} </h6>
+					<p> {{ agent.profileDescription }} </p>
+					<small> pridruzio se : {{ date }} </small>
+				</div>
 			</b-col>
 			<b-col>
 				<b-card v-if="stats" class="my-3">
@@ -23,8 +28,8 @@
 					<h6 class="mx-auto"> {{ 'ukupno postavljenih nekretnina : ' + stats.RealEstateCount }} </h6>
 					<h6 class="mx-auto"> {{ 'prodatih nekretnina : ' + stats.SalesCount }} </h6>
 				</b-card>
-				<b-card v-if="realEstates" class="mb-3">
-					<SearchBox />
+				<b-card class="mb-3">
+					<SearchBox :path="'/realEstate/agent/' + this.id" v-on:result="showResults" />
 				</b-card>
 				<SearchResultCard v-for="estate in realEstates" v-bind:key="estate.id" :data="estate" />
 			</b-col>
@@ -33,6 +38,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import SearchBox from '@/components/SearchBox'
 import SearchResultCard from '@/components/SearchResultCard'
 
@@ -51,6 +57,11 @@ export default {
 			account: null,
 			stats: null,
 			realEstates: null
+		}
+	},
+	computed: {
+		date () {
+			return moment(this.agent.createdAt).format('DD. MM. Y.')
 		}
 	},
 	methods: {
@@ -83,39 +94,16 @@ export default {
 					this.errorMessage = err.message
 				})
 		},
-		getRealEstate () {
-			this.loading = true
-			fetch(this.$SERVER_PATH + '/realEstate/agent/' + this.id, {
-				mode: 'cors',
-				headers: {
-					'content-type': 'application/json'
-				},
-				credentials: 'include'
-			})
-				.then(response => {
-					if (response.status !== 200) {
-							throw {
-								message: 'Nije pronadjen agent.'
-							}
-						}
-					return response.json()
-				})
-				.then(json => {
-					this.loading = false
-					this.realEstates = json
-				})
-				.catch(err => {
-					this.loading = false
-					this.errorMessage = err.message
-					console.error(err)
-				})
+		showResults (data) {
+			this.realEstates = data
 		}
 	},
-	mounted () {
+	created () {
 		this.id = this.$route.query.id
 		this.errorMessage = null
+	},
+	mounted () {
 		this.getAgent()
-		this.getRealEstate()
 	}
 }
 </script>

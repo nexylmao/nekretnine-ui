@@ -21,21 +21,31 @@
 				<b-form-input id="priceMaxInput" type="number" placeholder="Do" v-model="form.areaMax"></b-form-input>
 			</b-form-group>
 			<b-form-group :label="'\0'">
-				<b-button type="button" v-on:click="search" variant="light">Traži</b-button>
+				<b-button type="button" v-on:click="search" variant="primary">Traži</b-button>
 			</b-form-group>
 			<b-form-group :label="'\0'">
-				<b-select>
+				<select class="form-control" id="sort">
+					<option/>
 					<option v-on:click="sortPriceAscending()">Sortiraj po ceni - Rastuće</option>
 					<option v-on:click="sortPriceDescending()">Sortiraj po ceni - Opadajuće</option>
 					<option v-on:click="sortAreaAscending()">Sortiraj po kvadraturi - Rastuće</option>
 					<option v-on:click="sortAreaDescending()">Sortiraj po kvadraturi - Opadajuće</option>
-				</b-select>
+					<option v-on:click="sortCreatedAscending()">Sortiraj po datumu postavljanja - Rastuće</option>
+					<option v-on:click="sortCreatedDescending()">Sortiraj po datumu postavljanja - Opadajuće</option>
+				</select>
+			</b-form-group>
+			<b-form-group v-if="this.path" :label="'\0'">
+				<select class="form-control" id="filter">
+					<option v-on:click="filterUnsold()">Samo neprodate</option>
+					<option v-on:click="filterSold()">Samo prodate</option>
+					<option v-on:click="restart()">Sve</option>
+				</select>
 			</b-form-group>
 		</b-form>
 		<div v-if="loading" id="progress">
 			<b-spinner variant="light" />
 		</div>
-		<b-card class="mt-3 bg-danger" v-if="errorMessage">
+		<b-card class="mt-3 bg-danger text-white" v-if="errorMessage">
 			{{errorMessage}}
 		</b-card>
 	</div>
@@ -43,6 +53,7 @@
 
 <script>
 export default {
+	props: ['path'],
 	data () {
 		return {
 			form: {
@@ -57,7 +68,8 @@ export default {
 			loading: false,
 			errorMessage: null,
 			categories: null,
-			estate: null
+			fetched: null,
+			shown: null
 		}
 	},
 	methods: {
@@ -74,7 +86,7 @@ export default {
 			this.errorMessage = ''
 			this.$emit('result', [])
 			this.getQuery()
-			fetch(this.$SERVER_PATH + '/realEstate' + (this.queries !== '?' ? this.queries.substring(0, this.queries.length - 1) : ''), {
+			fetch(this.$SERVER_PATH + (this.path || '/realEstate') + (this.queries !== '?' ? this.queries.substring(0, this.queries.length - 1) : ''), {
 				mode: 'cors',
 				headers: {
 					'content-type': 'application/json'
@@ -90,9 +102,10 @@ export default {
 					return response.json()
 				})
 				.then(json => {
-					this.estate = json
+					this.fetched = json
+					this.shown = this.path ? json.filter(x => !x.sale) : json
 					this.loading = false
-					this.$emit('result', json)
+					this.$emit('result', this.shown)
 					if (!this.categories) {
 						this.categories = []
 						json.forEach(element => {
@@ -125,29 +138,61 @@ export default {
 				select.add(newOption)
 			})
 		},
-		restartSort () {
-			if (this.estate) {
-				this.$emit('result', this.estate)
+		restart () {
+			if (this.fetched) {
+				this.shown = this.fetched
+				this.restartSort()
+				this.$emit('result', this.shown)
 			}
 		},
 		sortPriceAscending () {
-			if (this.estate) {
-				this.$emit('result', this.estate.sort((x, y) => x.realEstate.price - y.realEstate.price))
+			if (this.shown) {
+				this.$emit('result', this.shown.sort((x, y) => x.realEstate.price - y.realEstate.price))
 			}
 		},
 		sortPriceDescending () {
-			if (this.estate) {
-				this.$emit('result', this.estate.sort((x, y) => y.realEstate.price - x.realEstate.price))
+			if (this.shown) {
+				this.$emit('result', this.shown.sort((x, y) => y.realEstate.price - x.realEstate.price))
 			}
 		},
 		sortAreaAscending () {
-			if (this.estate) {
-				this.$emit('result', this.estate.sort((x, y) => x.realEstate.area - y.realEstate.area))
+			if (this.shown) {
+				this.$emit('result', this.shown.sort((x, y) => x.realEstate.area - y.realEstate.area))
 			}
 		},
 		sortAreaDescending () {
-			if (this.estate) {
-				this.$emit('result', this.estate.sort((x, y) => y.realEstate.area - x.realEstate.area))
+			if (this.shown) {
+				this.$emit('result', this.shown.sort((x, y) => y.realEstate.area - x.realEstate.area))
+			}
+		},
+		sortCreatedAscending () {
+			if (this.shown) {
+				this.$emit('result', this.shown.sort((x, y) => new Date(x.realEstate.createdAt) - new Date(y.realEstate.createdAt)))
+			}
+		},
+		sortCreatedDescending () {
+			if (this.shown) {
+				this.$emit('result', this.shown.sort((x, y) => new Date(y.realEstate.createdAt) - new Date(x.realEstate.createdAt)))
+			}
+		},
+		filterUnsold () {
+			if (this.fetched) {
+				this.shown = this.fetched.filter(x => !x.sale)
+				this.restartSort()
+				this.$emit('result', this.shown)
+			}
+		},
+		filterSold () {
+			if (this.fetched) {
+				this.shown = this.fetched.filter(x => !!x.sale)
+				this.restartSort()
+				this.$emit('result', this.shown)
+			}
+		},
+		restartSort () {
+			let options = document.getElementById('sort').options
+			for (let i = 0; i < options.length; i++) {
+				options[i].selected = false
 			}
 		}
 	},
