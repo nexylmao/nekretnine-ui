@@ -80,10 +80,11 @@ export default {
 			})
 				.then(response => {
 					if (response.status !== 200) {
-							throw {
-								message: 'Nije pronadjen agent.'
-							}
+						// eslint-disable-next-line no-throw-literal
+						throw {
+							message: 'Nije pronadjen agent.'
 						}
+					}
 					return response.json()
 				})
 				.then(json => {

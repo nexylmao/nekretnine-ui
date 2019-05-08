@@ -54,13 +54,13 @@ export default {
 				.then(response => {
 					if (response.status === 404) {
 						this.getAccount()
-					}
-					else if (response.status === 403) {
+					} else if (response.status === 403) {
+						// eslint-disable-next-line no-throw-literal
 						throw {
 							message: 'Niste ulogovani'
 						}
-					}
-					else if (response.status !== 200) {
+					} else if (response.status !== 200) {
+						// eslint-disable-next-line no-throw-literal
 						throw {
 							message: 'Nismo mogli da uzmemo podatke o vasem nalogu'
 						}
@@ -86,6 +86,7 @@ export default {
 			})
 				.then(response => {
 					if (response.status !== 200) {
+						// eslint-disable-next-line no-throw-literal
 						throw {
 							message: 'Nismo mogli da uzmemo podatke o vasem nalogu'
 						}

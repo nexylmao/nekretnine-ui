@@ -99,6 +99,7 @@ export default {
 			})
 				.then(response => {
 					if (response.status !== 200) {
+						// eslint-disable-next-line no-throw-literal
 						throw {
 							message: 'Nisu pronađene nikakve nekretnine po kriterijumima.'
 						}

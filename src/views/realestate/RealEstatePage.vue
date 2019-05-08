@@ -101,7 +101,7 @@
 
 <script>
 import moment from 'moment'
-import { randomBytes } from 'crypto';
+// import { randomBytes } from 'crypto'
 
 export default {
 	name: 'RealEstatePage',
@@ -120,10 +120,11 @@ export default {
 		})
 			.then(response => {
 				if (response.status !== 200) {
-						throw {
-							message: 'Nije pronadjena nekretnina.'
-						}
+					// eslint-disable-next-line no-throw-literal
+					throw {
+						message: 'Nije pronadjena nekretnina.'
 					}
+				}
 				return response.json()
 			})
 			.then(json => {

@@ -62,11 +62,12 @@ export default {
 			})
 				.then(response => {
 					if (response.status === 401) {
+						// eslint-disable-next-line no-throw-literal
 						throw {
 							message: 'Vi ste vec ulogovani.'
 						}
-					}
-					else if (response.status !== 200) {
+					} else if (response.status !== 200) {
+						// eslint-disable-next-line no-throw-literal
 						throw {
 							message: 'Ne uspesno prijavljivanje.'
 						}
