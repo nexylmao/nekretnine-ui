@@ -13,6 +13,7 @@ import SearchAgents from './views/admin/SearchAgents'
 import SearchClients from './views/admin/SearchClients'
 import ClientProfile from './views/admin/ClientProfile'
 import Profile from './views/Profile'
+import EditProfile from './views/EditProfile'
 
 Vue.use(Router)
 
@@ -67,6 +68,12 @@ export default new Router({
 			name: 'profile',
 			component: Profile
 			// props: registerProps
+		},
+		{
+			path: '/profile/edit',
+			name: 'editprofile',
+			component: EditProfile,
+			props: registerProps
 		},
 		{
 			path: '/about',

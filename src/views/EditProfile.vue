@@ -1,0 +1,62 @@
+<template lang="pug">
+	div
+		b-row
+			b-col
+			b-col(xl=7 lg=7 md=12)
+				b-alert(:show="!tokenValid" variant="danger")
+					center
+						p(id="alert-text") Token you used has expired or is not valid!
+						b-button(variant="danger" to="/") Go back
+				b-alert(:show="!emailValid" variant="danger")
+					center
+						p(id="alert-text") No email was specified!
+						b-button(variant="danger" to="/") Go back
+				div(v-if="tokenValid && emailValid")
+					p.
+						Please enter your personal info you want to edit.
+					b-form
+						b-form-group(id="firstNameInputGroup" label="First name:" label-for="firstNameInput")
+							b-form-input(id="firstNameInput" v-model="profileData.firstName" type="text" required)
+						b-form-group(id="lastNameInputGroup" label="Last name:" label-for="lastNameInput")
+							b-form-input(id="lastNameInput" v-model="profileData.lastName" type="text" required)
+						b-form-group(id="phoneNumberInputGroup" label="Phone number:" label-for="phoneNumberInput")
+							b-form-input(id="phoneNumberInput" v-model="profileData.phoneNumber" type="text" required)
+						b-form-group(id="profileDescriptionInputGroup" label="Profile description:" label-for="profileDescriptionInput")
+							b-form-textarea(id="profileDescriptionInput" v-model="profileData.profileDescription" placeholder="Write about yourself..." rows=3 max-rows=6)
+						b-button(type="submit" variant="primary" class="w-25 float-right" @click="onContinueButtonClick") Update
+			b-col
+</template>
+
+<script>
+export default {
+	name: 'Register',
+	props: {
+		registerEmail: {
+			type: String,
+			required: true
+		}
+	},
+	data () {
+		return {
+			tokenValid: true,
+			emailValid: true,
+			profileData: {
+				firstName: '',
+				lastName: '',
+				phoneNumber: '',
+				profileDescription: ''
+			}
+		}
+	},
+	methods: {
+		onContinueButtonClick () {
+			console.log(this.profileData)
+		}
+	},
+	mounted () {
+		if (this.registerEmail === null || this.registerEmail === undefined) {
+			this.emailValid = false
+		}
+	}
+}
+</script>
