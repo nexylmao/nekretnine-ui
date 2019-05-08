@@ -9,6 +9,7 @@ import Login from './views/Login'
 import Register from './views/Register'
 import RegisterAgent from './views/RegisterAgent'
 import AdminAddEmail from './views/admin/AddEmail'
+import SearchAgents from './views/admin/SearchAgents'
 import Profile from './views/Profile'
 
 Vue.use(Router)
@@ -77,6 +78,11 @@ export default new Router({
 			path: '/admin/addemail',
 			name: 'adminaddemail',
 			component: AdminAddEmail
+		},
+		{
+			path: '/admin/searchAgents',
+			name: 'adminsearchagents',
+			component: SearchAgents
 		}
 	]
 })

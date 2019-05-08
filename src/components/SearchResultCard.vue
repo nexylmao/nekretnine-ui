@@ -2,7 +2,7 @@
 	<b-card id="thumbnail" class="search-result-card">
 		<b-row>
 			<b-col sm=12 md=6 lg=4>
-				<img id="photo" :src="data.realEstate.photos ? data.realEstate.photos[0] : $DEFAULT_REALESTATE">
+				<img class="real-estate-photo-search-result" :src="data.realEstate.photos ? data.realEstate.photos[0] : $DEFAULT_REALESTATE">
 			</b-col>
       <b-col sm=12 md=6 lg=4>
         <RouterLink :to="'/realestate?id=' + data.id"><h2>{{ data.realEstate.address }}, {{ data.realEstate.city }}</h2></RouterLink>
@@ -78,7 +78,7 @@ export default {
 	margin-bottom: 10px;
 }
 
-#photo {
+.real-estate-photo-search-result {
 	object-fit: scale-down;
 	max-height: 300px;
 	height: 100%;

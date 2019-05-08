@@ -23,6 +23,7 @@
 					<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ agent.phone }} </h6>
 					<p> {{ agent.profileDescription }} </p>
 					<small> pridruzio se : {{ date }} </small>
+					<b-button variant="primary" @click="editProfile" class="w-100">Edit profile</b-button>
 				</div>
 			</b-col>
 			<b-col>
@@ -101,6 +102,8 @@ export default {
 		},
 		showResults (data) {
 			this.realEstates = data
+		},
+		editProfile () {
 		}
 	},
 	created () {
