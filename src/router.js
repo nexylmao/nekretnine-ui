@@ -10,6 +10,8 @@ import Register from './views/Register'
 import RegisterAgent from './views/RegisterAgent'
 import AdminAddEmail from './views/admin/AddEmail'
 import SearchAgents from './views/admin/SearchAgents'
+import SearchClients from './views/admin/SearchClients'
+import ClientProfile from './views/admin/ClientProfile'
 import Profile from './views/Profile'
 
 Vue.use(Router)
@@ -83,6 +85,16 @@ export default new Router({
 			path: '/admin/searchAgents',
 			name: 'adminsearchagents',
 			component: SearchAgents
+		},
+		{
+			path: '/admin/searchClients',
+			name: 'adminsearchclients',
+			component: SearchClients
+		},
+		{
+			path: '/admin/clientProfile',
+			name: 'adminclientprofile',
+			component: ClientProfile
 		}
 	]
 })

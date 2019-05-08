@@ -6,7 +6,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
 	faUser,
 	faPhone,
-	faEnvelope
+	faEnvelope,
+	faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,7 +16,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.min.css'
 library.add(
 	faUser,
 	faPhone,
-	faEnvelope
+	faEnvelope,
+	faMapMarkerAlt
 )
 
 Vue.use(BootstrapVue)
