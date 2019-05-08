@@ -1,7 +1,17 @@
 <template>
 	<div>
-		<b-row>
-			<b-col cols=8>
+		<b-row class="my-1">
+			<div v-if="loading" id="progress" class="mx-auto my-0">
+				<b-spinner variant="dark" />
+			</div>
+		</b-row>
+		<b-row class="mx-auto my-1">
+			<b-card v-if="errorMessage" bg-variant="danger" class="w-100">
+				{{ errorMessage }}
+			</b-card>
+		</b-row>
+		<b-row v-if="realEstate" sm=12 md=10 lg=8>
+			<b-col>
 				<b-carousel
 					id="carouselSlideshow"
 					controls
@@ -9,38 +19,37 @@
 					:interval="10000"
 				>
 					<b-carousel-slide
-						v-for="url in imageUrls"
+						v-for="url in (realEstate.photos || $DEFAULT_REALESTATE_PHOTOS)"
 						:key="url"
 						:img-src="url"
 					/>
 				</b-carousel>
 
-				<h1 style="margin-top: 10px; margin-bottom: 10px">{{ realEstateData.title }}</h1>
+				<div class="p-2">
+					<h1 style="margin-top: 10px; margin-bottom: 10px">{{ realEstate.address }}</h1>
+				</div>
 
 				<b-card>
 					<b-card-text>
 						<b-row>
 							<b-col>
-								<p>Ulica: <b>{{ realEstateData.address }}</b></p>
-								<p>Grad: <b>{{ realEstateData.city }}</b></p>
+								<p>Ulica: <b>{{ realEstate.address }}</b></p>
+								<p>Grad: <b>{{ realEstate.city }}</b></p>
+								<p>Naselje: <b>{{ $NEIGHBORHOODS[realEstate.neighborhood] }}</b></p>
 							</b-col>
 							<b-col>
-								<p>Kvadratura: <b>{{ realEstateData.area }} m<sup>2</sup></b></p>
-								<p>Tagovi: <b-badge v-for="tag in realEstateData.tags" :key="tag" style="margin-right: 5px">{{ tag }}</b-badge></p>
+								<p>Kvadratura: <b>{{ realEstate.area }} m<sup>2</sup></b></p>
+								<p>Tagovi: <b-badge v-for="category in realEstate.categories.split(';')" :key="category" style="margin-right: 5px">{{ category }}</b-badge></p>
 							</b-col>
 						</b-row>
 					</b-card-text>
 				</b-card>
 
-				<div style="margin-top: 10px; margin-bottom: 10px">
-					<small class="grey-text">Ažuriran: {{ getDate(realEstateData.updatedAt) }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Objavljen: {{ getDate(realEstateData.createdAt) }}</small>
+				<div style="margin-top: 10px; margin-bottom: 10px" class="p-2">
+					<small class="grey-text">Ažuriran: {{ getDate() }}</small>
 				</div>
-
-				<div style="margin-top: 20px; margin-bottom: 20px">
-					<h3>Opis</h3>
-					<p>{{ realEstateData.description }}</p>
-				</div>
-
+			</b-col>
+			<b-col>
 				<b-card>
 					<b-card-text>
 						<b-row>
@@ -50,37 +59,37 @@
 						</b-row>
 						<b-row>
 							<b-col>
-								<p>Ulica: {{ realEstateData.address }}</p>
-								<p>Mesto: {{ realEstateData.city }}</p>
+								<b-img thumbnail fluid :src="agent.link || $DEFAULT_PROFILE" class="w-100" />
 							</b-col>
 							<b-col>
-								<small class="grey-text">Adresa</small>
-								<p>{{ realEstateData.agentPhone }}</p>
-								<b-button variant=primary class="w-100">Pošalji email</b-button>
+								<RouterLink :to="'/profile?id=' + agentId"><h2> {{ agent.firstName + ' ' + agent.lastName }} </h2></RouterLink>
+								<h4> <FontAwesomeIcon icon="user"/> {{ account.username }} </h4>
+								<h6> <FontAwesomeIcon icon="envelope"/> &nbsp;<a :href="'mailto:' + account.email"> {{account.email}} </a> </h6>
+								<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ agent.phone }} </h6>
+								<p> {{ agent.profileDescription }} </p>
+								<small> pridruzio se : {{ getAgentDate() }} </small>
 							</b-col>
 						</b-row>
 					</b-card-text>
 				</b-card>
-			</b-col>
-			<b-col>
-				<b-card>
+
+				<b-card class="my-1" v-if="!sale">
 					<b-card-text>
 						<b-row>
 							<b-col>
 								<small>Cena</small>
-								<h2>{{ realEstateData.price }}</h2>
+								<h2>{{ realEstate.price }}</h2>
 								<small>{{ pricePerSquareMeter }} din/m<sup>2</sup></small>
 							</b-col>
 						</b-row>
-						<hr/>
+					</b-card-text>
+				</b-card>
+				<b-card class="my-1" v-else bg-variant="danger" text-variant="white">
+					<b-card-text>
 						<b-row>
 							<b-col>
-								<RouterLink to="/profile"><h4>{{ realEstateData.agentName }}</h4></RouterLink>
-								<label class="grey-text"><small>Adresa</small></label>
-								<p>{{ realEstateData.address }}<br/>{{ realEstateData.city }}</p>
-								<label class="grey-text"><small>Telefon</small></label>
-								<p>{{ realEstateData.agentPhone }}</p>
-								<b-button variant=primary class="w-100">Pošalji email</b-button>
+								<h4> Nekretnina je prodata! </h4>
+								<small> {{ 'prodato : ' + getSaleDate() }} </small>
 							</b-col>
 						</b-row>
 					</b-card-text>
@@ -92,40 +101,75 @@
 
 <script>
 import moment from 'moment'
+import { randomBytes } from 'crypto';
 
 export default {
 	name: 'RealEstatePage',
+	created () {
+		this.id = this.$route.query.id
+	},
+	mounted () {
+		this.loading = true
+		this.errorMessage = null
+		fetch(this.$SERVER_PATH + '/realEstate/id/' + this.id, {
+			mode: 'cors',
+			headers: {
+				'content-type': 'application/json'
+			},
+			credentials: 'include'
+		})
+			.then(response => {
+				if (response.status !== 200) {
+						throw {
+							message: 'Nije pronadjena nekretnina.'
+						}
+					}
+				return response.json()
+			})
+			.then(json => {
+				this.loading = false
+				this.agentId = json.agentId
+				this.realEstate = json.realEstate
+				this.agent = json.agent
+				this.account = json.account
+				this.sale = json.sale
+			})
+			.catch(err => {
+				console.error(err)
+				this.loading = false
+				this.errorMessage = err.message
+			})
+	},
 	data () {
 		return {
-			imageUrls: [
-				'http://placekitten.com/1024/768',
-				'http://placekitten.com/1024/768',
-				'http://placekitten.com/1024/768'
-			],
-			realEstateData: {
-				title: 'Neki vrlo skup stan u Novom Sadu',
-				price: 5931.54,
-				area: 124.00,
-				agentName: 'Dušan Simić',
-				agentPhone: '0695342091',
-				agentEmail: 'dusansimic@nekreletnine.rs',
-				address: 'Veljka Petrovica 8',
-				city: 'Novi Sad',
-				createdAt: new Date(),
-				updatedAt: new Date(),
-				tags: ['dvosoban', 'iznajmljivanje'],
-				description: 'U neposrednoj blizini Hrama ,idealan za laboratoriju ,ordinaciju ,kancelarije.. Moguc dogovor. Nase usluge iznose 50% od visine prve mesecne zakupnine.'
-			}
+			id: null,
+			agentId: null,
+			realEstate: null,
+			agent: null,
+			account: null,
+			sale: null,
+			errorMessage: null,
+			loading: false
 		}
 	},
 	computed: {
 		pricePerSquareMeter () {
-			return (this.realEstateData.price / this.realEstateData.area).toFixed(2)
+			return (this.realEstate.price / this.realEstate.area).toFixed(2)
 		}
 	},
 	methods: {
-		getDate (dateTime) {
-			return moment(dateTime).format('DD. MM. Y.')
+		getDate () {
+			return moment(this.realEstate.updatedAt).format('DD. MM. Y.')
+		},
+		getSaleDate () {
+			if (this.sale) {
+				return moment(this.sale.saleDate).format('DD. MM. Y.')
+			}
+		},
+		getAgentDate () {
+			if (this.agent) {
+				return moment(this.agent.createdAt).format('DD. MM. Y')
+			}
 		}
 	}
 }

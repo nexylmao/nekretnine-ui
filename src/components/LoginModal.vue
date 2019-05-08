@@ -1,23 +1,18 @@
 <template lang="pug">
-	b-modal(title="Login" v-model="computedShowModal" centered)
-		b-form
+	b-modal(title="Login" v-model="computedShowModal" centered hide-footer)
+		b-form(@submit.prevent="onLoginButtonClick")
 			b-form-group(id="usernameEmailLoginInputGroup" label="Username or email:" label-for="usernameEmailLoginInput")
-				b-form-input(id="usernameEmailLoginInput" v-model="loginData.username" type="email" required placeholder="Enter your username or email")
+				b-form-input(id="usernameEmailLoginInput" v-model="loginData.identification" required placeholder="Enter your username or email")
 			b-form-group(id="passwordLoginInputGroup" label="Password:" label-for="passwordLoginInput")
 				b-form-input(id="passwordLoginInput" v-model="loginData.password" type="password" required)
-		div(slot="modal-footer" class="w-100")
-			b-button(variant="primary" class="float-right" @click="onLoginButtonClick") Login
+			b-card(bg-variant="danger" text-variant="white" class="m-2" v-if="errorMessage") {{ errorMessage }}
+			div(slot="modal-footer" class="w-100")
+				b-button(v-if="!loading" variant="primary" class="float-right" type="submit") Login
+				b-spinner(v-if="loading" variant="dark" class="float-right")
 </template>
 
 <script>
-/*
- * Nemoj mi verovati na rec da se ovako poziva
- * ova biblioteka tako da ako ti bude trebala
- * proveri za svaki slucaj kako se poziva jer
- * Vue taba kroz neki babel il neki kurac pa
- * moras postovati kako se importuje u es6+.
- */
-// import crypto from 'crypto'
+import crypto from 'crypto'
 
 export default {
 	name: 'LoginModal',
@@ -29,18 +24,15 @@ export default {
 	},
 	data () {
 		return {
+			loading: false,
+			errorMessage: null,
 			loginData: {
-				username: '',
+				identification: '',
 				password: ''
 			}
 		}
 	},
 	computed: {
-		/*
-		 * Ista prica kao u navbar za computed.
-		 * Samo sto ovde se gleda dal je treba prikazati
-		 * modal ili ne.
-		 */
 		computedShowModal: {
 			get () {
 				return this.showModal
@@ -53,21 +45,43 @@ export default {
 		}
 	},
 	methods: {
-		/*
-		 * Sada se ovde baca ona logika za logovanje
-		 * korisnika. Tu mozes isto i ako neke tokene
-		 * treba sredjivati umesto u app.vue.
-		 * Mislim da je jasno kod logina koje podatke saljes.
-		 * Nemam pojma dal zelis da se hesuje ili ne tako da
-		 * to ti ovde radi.
-		 * Ostavicu ti zakomentarisan import biblioteke
-		 * koja ti hashuje u sha256 pa je ti iskoristi ako
-		 * oces. Redovno kao u nodejs direktno pozivas biblioteku
-		 * jer je ovo javascript blok.
-		 */
 		onLoginButtonClick () {
-			console.log(this.loginData)
-			this.$emit('loggedIn')
+			this.errorMessage = null
+			this.loading = true
+			fetch(this.$SERVER_PATH + '/login', {
+				method: 'POST',
+				body: JSON.stringify({
+					identification: this.loginData.identification,
+					password: crypto.createHash('sha256').update(this.loginData.password, 'utf8').digest('hex')
+				}),
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					if (response.status === 401) {
+						throw {
+							message: 'Vi ste vec ulogovani.'
+						}
+					}
+					else if (response.status !== 200) {
+						throw {
+							message: 'Ne uspesno prijavljivanje.'
+						}
+					}
+					return response.json()
+				})
+				.then(json => {
+					this.loading = false
+					this.$emit('loggedIn', json)
+				})
+				.catch(err => {
+					console.error(err)
+					this.loading = false
+					this.errorMessage = err.message
+				})
 		}
 	}
 }

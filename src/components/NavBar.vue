@@ -10,9 +10,12 @@
 					<b-nav-item @click="onLoginButtonClick">Login</b-nav-item>
 				</div>
 				<div v-else>
-					<b-nav-item-dropdown text="User" right>
-						<b-dropdown-item to="/profile">Profile</b-dropdown-item>
-						<b-dropdown-item @click="onLogoutButtonClick">Logout</b-dropdown-item>
+					<b-nav-item-dropdown :text="computedText" right>
+						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Moj profil</b-dropdown-item>
+						<b-dropdown-item v-else :to="'/register/agent?id=' + id">Prijavi se kao agent</b-dropdown-item>
+						<b-dropdown-divider />
+						<b-dropdown-item>Podesavanje naloga</b-dropdown-item>
+						<b-dropdown-item @click="onLogoutButtonClick">Odloguj se</b-dropdown-item>
 					</b-nav-item-dropdown>
 				</div>
 			</b-navbar-nav>
@@ -23,38 +26,46 @@
 <script>
 export default {
 	name: 'NavBar',
-	props: {
-		userLoggedIn: {
-			type: Boolean,
-			required: true
-		}
-	},
+	props: ['id', 'account', 'agent'],
 	methods: {
 		onLoginButtonClick () {
 			this.$emit('loginButtonClicked')
 		},
 		onLogoutButtonClick () {
-			this.computedUserLoggedIn = false
-			window.localStorage.setItem('userLoggedIn', false)
+			fetch(this.$SERVER_PATH + '/logout', {
+				method: 'POST',
+				mode: 'cors',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include'
+			})
+				.then(response => {
+					console.log(response)
+					return response.json()
+				})
+				.then(json => {
+					this.$emit('logout')
+					console.log(json)
+				})
+				.catch(err => {
+					console.error(err)
+				})
 		}
 	},
 	computed: {
-		/*
-		 * Ovo ovde je computed varijabla sa geterom
-		 * i seterom. Generalno computed su samo geteri
-		 * ali zato sto se i setuje (koristim za emitter)
-		 * onda mora imati i seter. Ovde ne bi trebalo
-		 * nista da se dodaje ako ne mora.
-		 */
 		computedUserLoggedIn: {
 			get () {
-				return this.userLoggedIn
+				return !!this.id
 			},
 			set (newVal) {
 				if (!newVal) {
-					this.$emit('loggedOut')
+					this.$emit('logout')
 				}
 			}
+		},
+		computedText () {
+			return this.agent ? `${this.agent.firstName} ${this.agent.lastName} (${this.account.username})` : this.account.username
 		}
 	},
 	mounted () {
