@@ -17,13 +17,6 @@ import EditProfile from './views/EditProfile'
 
 Vue.use(Router)
 
-// eslint-disable-next-line no-unused-vars
-const registerProps = route => {
-	return {
-		registerEmail: 'simic.dusan@jjzmaj.edu.rs'
-	}
-}
-
 export default new Router({
 	routes: [
 		{
@@ -54,26 +47,22 @@ export default new Router({
 		{
 			path: '/register',
 			name: 'register',
-			component: Register,
-			props: registerProps
+			component: Register
 		},
 		{
 			path: '/register/agent',
 			name: 'registeragent',
-			component: RegisterAgent,
-			props: registerProps
+			component: RegisterAgent
 		},
 		{
 			path: '/profile',
 			name: 'profile',
 			component: Profile
-			// props: registerProps
 		},
 		{
 			path: '/profile/edit',
 			name: 'editprofile',
-			component: EditProfile,
-			props: registerProps
+			component: EditProfile
 		},
 		{
 			path: '/about',
