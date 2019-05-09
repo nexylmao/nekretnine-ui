@@ -24,15 +24,9 @@
 <script>
 export default {
 	name: 'Register',
-	props: {
-		registerEmail: {
-			type: String,
-			required: true
-		}
-	},
 	data () {
 		return {
-			registerData: {
+			client: {
 				firstName: '',
 				lastName: '',
 				phone: '',
@@ -46,7 +40,7 @@ export default {
 			fetch(`${this.$SERVER_PATH}/client`, {
 				method: 'POST',
 				mode: 'cors',
-				body: JSON.stringify(this.registerData),
+				body: JSON.stringify(this.client),
 				headers: {
 					'Content-Type': 'application/json'
 				},

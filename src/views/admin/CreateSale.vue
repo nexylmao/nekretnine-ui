@@ -22,12 +22,6 @@
 <script>
 export default {
 	name: 'Register',
-	props: {
-		registerEmail: {
-			type: String,
-			required: true
-		}
-	},
 	data () {
 		return {
 			saleData: {
@@ -42,7 +36,7 @@ export default {
 	methods: {
 		onContinueButtonClick () {
 			this.saleData.saleDate = new Date().toISOString()
-			fetch(`${this.$SERVER_PATH}/client`, {
+			fetch(`${this.$SERVER_PATH}/sale`, {
 				method: 'POST',
 				mode: 'cors',
 				body: JSON.stringify(this.saleData),

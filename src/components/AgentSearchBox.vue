@@ -66,7 +66,7 @@ export default {
 			this.errorMessage = ''
 			this.$emit('result', [])
 			this.getQuery()
-			fetch(this.$SERVER_PATH + (this.path || '/realEstate') + (this.queries !== '?' ? this.queries.substring(0, this.queries.length - 1) : ''), {
+			fetch(this.$SERVER_PATH + '/agent' + (this.queries !== '?' ? this.queries.substring(0, this.queries.length - 1) : ''), {
 				mode: 'cors',
 				headers: {
 					'content-type': 'application/json'

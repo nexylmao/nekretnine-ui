@@ -1,11 +1,11 @@
 <template>
 	<b-card id="thumbnail" class="search-result-card">
 		<b-row>
-      <b-col sm=12 md=6 lg=4>
-        <RouterLink :to="'/profile?id=' + data.agent.id"><h2>{{ data.agent.firstName }} {{ data.agent.lastName }}</h2></RouterLink>
-				<p>{{ data.agent.address }} {{ data.agent.city }}</p>
-      </b-col>
-    </b-row>
+			<b-col sm=12 md=6 lg=4>
+				<h2>{{ data.client.firstName }} {{ data.client.lastName }}</h2>
+				<p>{{ data.client.address }} {{ data.client.city }}</p>
+			</b-col>
+		</b-row>
 	</b-card>
 </template>
 

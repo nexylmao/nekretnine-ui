@@ -23,6 +23,9 @@
 					<option @click="sortSurnameDescending()">Sortiraj po prezimenu - Opadajuće</option>
 				</select>
 			</b-form-group>
+			<b-form-group :label="'\0'">
+				<b-button type="button" to="/admin/client/add" variant="secondary">Dodaj clienta</b-button>
+			</b-form-group>
 		</b-form>
 		<div v-if="loading" id="progress">
 			<b-spinner variant="light" />
@@ -67,7 +70,7 @@ export default {
 			this.errorMessage = ''
 			this.$emit('result', [])
 			this.getQuery()
-			fetch(this.$SERVER_PATH + (this.path || '/realEstate') + (this.queries !== '?' ? this.queries.substring(0, this.queries.length - 1) : ''), {
+			fetch(this.$SERVER_PATH + '/client' + (this.queries !== '?' ? this.queries.substring(0, this.queries.length - 1) : ''), {
 				mode: 'cors',
 				headers: {
 					'content-type': 'application/json'
