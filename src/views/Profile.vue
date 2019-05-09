@@ -104,6 +104,7 @@ export default {
 			this.realEstates = data
 		},
 		editProfile () {
+			this.$router.push(`/profile/edit?id=${this.id}`)
 		}
 	},
 	created () {
