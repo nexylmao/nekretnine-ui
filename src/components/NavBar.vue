@@ -46,8 +46,8 @@ export default {
 					return response.json()
 				})
 				.then(json => {
-					this.$emit('logout')
 					console.log(json)
+					this.$emit('logout')
 				})
 				.catch(err => {
 					console.error(err)
@@ -58,22 +58,10 @@ export default {
 		computedUserLoggedIn: {
 			get () {
 				return !!this.id
-			},
-			set (newVal) {
-				if (!newVal) {
-					this.$emit('logout')
-				}
 			}
 		},
 		computedText () {
 			return this.agent ? `${this.agent.firstName} ${this.agent.lastName} (${this.account.username})` : this.account.username
-		}
-	},
-	mounted () {
-		// Magija za proveru dal je korisnik ulogovan
-		this.computedUserLoggedIn = window.localStorage.getItem('userLoggedIn')
-		if (this.computedUserLoggedIn === null || this.computedUserLoggedIn === undefined) {
-			this.computedUserLoggedIn = false
 		}
 	}
 }
