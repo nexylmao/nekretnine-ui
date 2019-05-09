@@ -46,7 +46,6 @@ export default {
 			queries: null,
 			loading: false,
 			errorMessage: null,
-			categories: null,
 			fetched: null,
 			shown: null,
 			select: []
@@ -87,19 +86,6 @@ export default {
 					this.shown = this.path ? json.filter(x => !x.sale) : json
 					this.loading = false
 					this.$emit('result', this.shown)
-					if (!this.categories) {
-						this.categories = []
-						json.forEach(element => {
-							let n = element.realEstate.categories.split(';')
-							n.forEach(category => {
-								if (!this.categories.includes(category) && category !== '') {
-									this.categories.push(category)
-								}
-							})
-						})
-						this.categories.sort()
-						this.addTypeOptions(this.categories)
-					}
 				})
 				.catch(err => {
 					console.error(err)
