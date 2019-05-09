@@ -12,7 +12,7 @@
 				<div v-else>
 					<b-nav-item-dropdown :text="computedText" right>
 						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Moj profil</b-dropdown-item>
-						<b-dropdown-item v-else :to="'/register/agent?id=' + id">Prijavi se kao agent</b-dropdown-item>
+						<b-dropdown-item v-else :to="'/register/agent'">Prijavi se kao agent</b-dropdown-item>
 						<b-dropdown-divider />
 						<!-- <b-dropdown-item>Podesavanje naloga</b-dropdown-item> -->
 						<b-dropdown-item v-if="account.role" :to="'/admin/addemail'">Prijavite novi nalog</b-dropdown-item>

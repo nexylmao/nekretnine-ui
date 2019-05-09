@@ -5,7 +5,7 @@
 			<b-col/>
 			<b-col xl=8 lg=8 md=8>
 				<LoginModal @modalHidden="showLoginModal = false" @loggedIn="onLoggedIn" :showModal="showLoginModal"/>
-				<RouterView @loggedIn="onLoggedIn" :me="me"/>
+				<RouterView @loggedIn="onLoggedIn" @updateMe="getAgent" :me="me"/>
 			</b-col>
 			<b-col/>
 		</b-row>
