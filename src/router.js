@@ -12,6 +12,8 @@ import AdminAddEmail from './views/admin/AddEmail'
 import SearchAgents from './views/admin/SearchAgents'
 import SearchClients from './views/admin/SearchClients'
 import ClientProfile from './views/admin/ClientProfile'
+import ClientAdd from './views/admin/CreateClient'
+import EstablishSale from './views/admin/CreateSale'
 import Profile from './views/Profile'
 import EditProfile from './views/EditProfile'
 
@@ -88,9 +90,19 @@ export default new Router({
 			component: SearchClients
 		},
 		{
-			path: '/admin/clientProfile',
+			path: '/admin/client/profile',
 			name: 'adminclientprofile',
 			component: ClientProfile
+		},
+		{
+			path: '/admin/client/add',
+			name: 'adminclientadd',
+			component: ClientAdd
+		},
+		{
+			path: '/sale/establish',
+			name: 'establishsale',
+			component: EstablishSale
 		}
 	]
 })
