@@ -86,12 +86,17 @@ export default {
 			this.id = json.id
 			this.account = json.account
 			this.getAgent()
+			window.location.reload()
 		},
 		onLoggedOut () {
 			this.id = null
 			this.account = null
 			this.agent = null
-			this.$router.push('/')
+			if (this.$route.path === '/') {
+				window.location.reload()
+			} else {
+				this.$router.push('/')
+			}
 		}
 	},
 	mounted () {
