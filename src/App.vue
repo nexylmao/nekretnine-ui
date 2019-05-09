@@ -5,7 +5,7 @@
 			<b-col/>
 			<b-col xl=8 lg=8 md=8>
 				<LoginModal @modalHidden="showLoginModal = false" @loggedIn="onLoggedIn" :showModal="showLoginModal"/>
-				<RouterView :me="me"/>
+				<RouterView @loggedIn="onLoggedIn" :me="me"/>
 			</b-col>
 			<b-col/>
 		</b-row>
@@ -43,76 +43,61 @@ export default {
 		}
 	},
 	methods: {
-		getAgent () {
-			fetch(this.$SERVER_PATH + '/agent/me', {
+		async getAgent () {
+			let data = await fetch(this.$SERVER_PATH + '/agent/me', {
 				mode: 'cors',
 				headers: {
 					'content-type': 'application/json'
 				},
 				credentials: 'include'
 			})
-				.then(response => {
-					if (response.status === 404) {
-						this.getAccount()
-					} else if (response.status === 403) {
-						// eslint-disable-next-line no-throw-literal
-						throw {
-							message: 'Niste ulogovani'
-						}
-					} else if (response.status !== 200) {
-						// eslint-disable-next-line no-throw-literal
-						throw {
-							message: 'Nismo mogli da uzmemo podatke o vasem nalogu'
-						}
-					}
-					return response.json()
-				})
-				.then(json => {
-					this.id = json.id
-					this.account = json.account
-					this.agent = json.agent
-				})
-				.catch(err => {
-					console.error(err)
-				})
+
+			let json = await data.json()
+			if (data.status !== 200) {
+				if (json.message === 'You are not an agent!') {
+					this.getAccount()
+				}
+				return
+			}
+
+			this.id = json.id
+			this.account = json.account
+			this.agent = json.agent
+			this.getAccount()
 		},
-		getAccount () {
-			fetch(this.$SERVER_PATH + '/me', {
+		async getAccount () {
+			let data = await fetch(this.$SERVER_PATH + '/me', {
 				mode: 'cors',
 				headers: {
 					'content-type': 'application/json'
 				},
 				credentials: 'include'
 			})
-				.then(response => {
-					if (response.status !== 200) {
-						// eslint-disable-next-line no-throw-literal
-						throw {
-							message: 'Nismo mogli da uzmemo podatke o vasem nalogu'
-						}
-					}
-					return response.json()
-				})
-				.then(json => {
-					this.id = json.id
-					this.account = json.account
-					this.agent = json.agent
-				})
-				.catch(err => {
-					console.error(err)
-				})
+
+			let json = await data.json()
+			if (data.status !== 200) {
+				return
+			}
+
+			this.id = json.id
+			this.account = json.account
 		},
 		onLoggedIn (json) {
 			this.showLoginModal = false
 			this.id = json.id
 			this.account = json.account
 			this.getAgent()
+			window.location.reload()
 		},
 		onLoggedOut () {
 			this.id = null
 			this.account = null
 			this.agent = null
-			this.$router.push('/')
+			if (this.$route.path === '/') {
+				window.location.reload()
+			} else {
+				this.$router.push('/')
+			}
 		}
 	},
 	mounted () {
