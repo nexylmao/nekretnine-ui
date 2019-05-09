@@ -14,7 +14,8 @@
 						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Moj profil</b-dropdown-item>
 						<b-dropdown-item v-else :to="'/register/agent?id=' + id">Prijavi se kao agent</b-dropdown-item>
 						<b-dropdown-divider />
-						<b-dropdown-item>Podesavanje naloga</b-dropdown-item>
+						<!-- <b-dropdown-item>Podesavanje naloga</b-dropdown-item> -->
+						<b-dropdown-item v-if="account.role" :to="'/admin/addemail'">Prijavite novi nalog</b-dropdown-item>
 						<b-dropdown-item @click="onLogoutButtonClick">Odloguj se</b-dropdown-item>
 					</b-nav-item-dropdown>
 				</div>

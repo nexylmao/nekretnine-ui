@@ -63,6 +63,7 @@ export default {
 			this.id = json.id
 			this.account = json.account
 			this.agent = json.agent
+			this.getAccount()
 		},
 		async getAccount () {
 			let data = await fetch(this.$SERVER_PATH + '/me', {
