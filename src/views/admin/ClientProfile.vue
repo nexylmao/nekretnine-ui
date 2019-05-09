@@ -14,24 +14,23 @@
 			<h2 class="mx-auto">Ovo ste vi!</h2>
 		</b-row>
 		<b-row>
-			<b-col md=12 lg=3 v-if="client">
+			<b-col md=12 lg=3 v-if="agent">
 				<div class="p-2">
-					<h2> {{ client.firstName + ' ' + client.lastName }} </h2>
-					<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ client.address }} {{ client.location }} </h6>
-					<h6><FontAwesomeIcon icon="map-marker-alt"/> &nbsp; {{  }}</h6>
+					<h2> {{ client.firstName }} {{ client.lastName }} </h2>
+					<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ client.phone }} </h6>
+					<h6><FontAwesomeIcon icon="faMapMarkerAlt"/> &nbsp; {{ client.address }} {{ client.city }}</h6>
 					<small> pridruzio se : {{ date }} </small>
-					<b-button variant="primary" @click="editProfile" class="w-100">Edit profile</b-button>
 				</div>
 			</b-col>
 			<b-col>
 				<b-card v-if="stats" class="my-3">
 					<h3>Statistika</h3>
-					<h6 class="mx-auto"> {{ 'ukupno kupljenih nekretnina : ' + stats.RealEstateCount }} </h6>
+					<h6 class="mx-auto"> {{ 'ukupno kupljenih nekretnina : ' + stats.purchases }} </h6>
 				</b-card>
-				<b-card class="mb-3">
+				<!-- <b-card class="mb-3">
 					<SearchBox :path="'/realEstate/agent/' + this.id" v-on:result="showResults" />
 				</b-card>
-				<SearchResultCard v-for="estate in realEstates" v-bind:key="estate.id" :data="estate" />
+				<SearchResultCard v-for="estate in realEstates" v-bind:key="estate.id" :data="estate" /> -->
 			</b-col>
 		</b-row>
 	</div>
@@ -39,22 +38,22 @@
 
 <script>
 import moment from 'moment'
-import SearchBox from '@/components/SearchBox'
-import SearchResultCard from '@/components/SearchResultCard'
+// import SearchBox from '@/components/SearchBox'
+// import SearchResultCard from '@/components/SearchResultCard'
 
 export default {
 	name: 'Profile',
 	props: ['me'],
 	components: {
-		SearchBox,
-		SearchResultCard
+		// SearchBox,
+		// SearchResultCard
 	},
 	data () {
 		return {
 			loading: false,
 			errorMessage: null,
 			id: null,
-			client: null,
+			agent: null,
 			account: null,
 			stats: null,
 			realEstates: null
@@ -68,7 +67,7 @@ export default {
 	methods: {
 		getAgent () {
 			this.loading = true
-			fetch(this.$SERVER_PATH + '/agent/id/' + this.id, {
+			fetch(this.$SERVER_PATH + '/client/id/' + this.id, {
 				mode: 'cors',
 				headers: {
 					'content-type': 'application/json'
@@ -88,6 +87,7 @@ export default {
 					this.loading = false
 					this.agent = json.agent
 					this.account = json.account
+					this.client = json.client
 					this.stats = json.stats
 				})
 				.catch(err => {
@@ -100,6 +100,7 @@ export default {
 			this.realEstates = data
 		},
 		editProfile () {
+			this.$router.push(`/profile/edit?id=${this.id}`)
 		}
 	},
 	created () {
