@@ -12,7 +12,7 @@
 				<div v-else>
 					<b-nav-item-dropdown :text="computedText" right>
 						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Moj profil</b-dropdown-item>
-						<b-dropdown-item v-else :to="'/register/agent?id=' + id">Prijavi se kao agent</b-dropdown-item>
+						<b-dropdown-item v-else :to="'/register/agent'">Prijavi se kao agent</b-dropdown-item>
 						<b-dropdown-divider />
 						<!-- <b-dropdown-item>Podesavanje naloga</b-dropdown-item> -->
 						<b-dropdown-item v-if="account.role" :to="'/admin/addemail'">Prijavite novi nalog</b-dropdown-item>
@@ -46,8 +46,8 @@ export default {
 					return response.json()
 				})
 				.then(json => {
-					this.$emit('logout')
 					console.log(json)
+					this.$emit('logout')
 				})
 				.catch(err => {
 					console.error(err)
@@ -58,22 +58,10 @@ export default {
 		computedUserLoggedIn: {
 			get () {
 				return !!this.id
-			},
-			set (newVal) {
-				if (!newVal) {
-					this.$emit('logout')
-				}
 			}
 		},
 		computedText () {
 			return this.agent ? `${this.agent.firstName} ${this.agent.lastName} (${this.account.username})` : this.account.username
-		}
-	},
-	mounted () {
-		// Magija za proveru dal je korisnik ulogovan
-		this.computedUserLoggedIn = window.localStorage.getItem('userLoggedIn')
-		if (this.computedUserLoggedIn === null || this.computedUserLoggedIn === undefined) {
-			this.computedUserLoggedIn = false
 		}
 	}
 }

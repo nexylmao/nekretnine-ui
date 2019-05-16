@@ -26,6 +26,7 @@ export default {
 		return {
 			id: null,
 			agent: null,
+			agentNew: null,
 			account: null,
 			loading: null,
 			stats: null
