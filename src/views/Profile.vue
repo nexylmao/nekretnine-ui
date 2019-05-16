@@ -10,21 +10,20 @@
 				<b-spinner variant="dark" />
 			</div>
 		</b-row>
-		<b-row sm=12 v-if="me.id == id">
-			<h2 class="mx-auto">Ovo ste vi!</h2>
-		</b-row>
 		<b-row>
 			<b-col md=12 lg=3 v-if="agent">
-				<b-img thumbnail fluid :src="agent.link || $DEFAULT_PROFILE" class="w-100" />
-				<div class="p-2">
-					<h2> {{ agent.firstName + ' ' + agent.lastName }} </h2>
-					<h4> <FontAwesomeIcon icon="user"/> {{ account.username }} </h4>
-					<h6> <FontAwesomeIcon icon="envelope"/> &nbsp;<a :href="'mailto:' + account.email"> {{account.email}} </a> </h6>
-					<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ agent.phone }} </h6>
-					<p> {{ agent.profileDescription }} </p>
-					<small> pridruzio se : {{ date }} </small>
-					<b-button variant="primary" @click="editProfile" class="w-100">Edit profile</b-button>
-				</div>
+				<b-card>
+					<b-img thumbnail fluid :src="agent.link || $DEFAULT_PROFILE" class="w-100" />
+					<div class="p-2">
+						<h2> {{ agent.firstName + ' ' + agent.lastName }} </h2>
+						<h4> <FontAwesomeIcon icon="user"/> {{ account.username }} </h4>
+						<h6> <FontAwesomeIcon icon="envelope"/> &nbsp;<a :href="'mailto:' + account.email"> {{account.email}} </a> </h6>
+						<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ agent.phone }} </h6>
+						<p> {{ agent.profileDescription }} </p>
+						<small> pridruzio se : {{ date }} </small>
+						<b-button variant="primary" v-if="canEdit" @click="editProfile" class="w-100">Edit profile</b-button>
+					</div>
+				</b-card>
 			</b-col>
 			<b-col>
 				<b-card v-if="stats" class="my-3">
@@ -67,6 +66,9 @@ export default {
 	computed: {
 		date () {
 			return moment(this.agent.createdAt).format('DD. MM. Y.')
+		},
+		canEdit () {
+			return this.id === this.me.id || (this.me.role === 1 && this.account.role !== -1)
 		}
 	},
 	methods: {

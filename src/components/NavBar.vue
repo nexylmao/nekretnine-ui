@@ -11,7 +11,7 @@
 				</div>
 				<div v-else>
 					<b-nav-item-dropdown :text="computedText" right>
-						<b-dropdown-item v-if="agent" :to="'/profile?id=' + id">Moj profil</b-dropdown-item>
+						<b-dropdown-item v-if="agent" @click="myProfile">Moj profil</b-dropdown-item>
 						<b-dropdown-item v-else :to="'/register/agent'">Prijavi se kao agent</b-dropdown-item>
 						<b-dropdown-divider />
 						<!-- <b-dropdown-item>Podesavanje naloga</b-dropdown-item> -->
@@ -29,6 +29,14 @@ export default {
 	name: 'NavBar',
 	props: ['id', 'account', 'agent'],
 	methods: {
+		myProfile () {
+			if (this.$route.path !== '/profile') {
+				this.$router.push('/profile?id=' + this.id)
+			} else if (this.$route.fullPath !== ('/profile?id=' + this.id)) {
+				window.location.replace('/#/profile?id=' + this.id)
+				window.location.reload()
+			}
+		},
 		onLoginButtonClick () {
 			this.$emit('loginButtonClicked')
 		},
@@ -42,11 +50,9 @@ export default {
 				credentials: 'include'
 			})
 				.then(response => {
-					console.log(response)
 					return response.json()
 				})
 				.then(json => {
-					console.log(json)
 					this.$emit('logout')
 				})
 				.catch(err => {

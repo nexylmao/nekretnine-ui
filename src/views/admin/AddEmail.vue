@@ -1,5 +1,5 @@
 <template lang="pug">
-	div
+	b-card
 		b-row
 			b-col
 			b-col(xl=7 lg=7 md=12)
@@ -10,10 +10,10 @@
 				center(class="my-2" v-if="loading || !me")
 					b-spinner
 				div(v-else)
-					b-alert(v-if="me && me.account && me.account.role !== 1" variant="danger")
-							center
-								h4(class="my-3" id="alert-text") {{ 'Vi niste admin' }}
-								b-button(variant="danger" to="/") Vratite se na glavnu stranicu
+					div(v-if="me && me.account && me.account.role !== 1")
+						center
+							h4(class="my-3" id="alert-text") Vi niste admin
+							b-button(variant="danger" to="/") Vratite se na glavnu stranicu
 					div(v-else)
 						p Molimo vas, unesite email adresu za novi nalog
 						b-form(@submit.prevent="submit")
