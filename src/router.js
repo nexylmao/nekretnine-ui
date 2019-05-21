@@ -80,7 +80,7 @@ export default new Router({
 			component: AdminAddEmail
 		},
 		{
-			path: '/admin/searchAgents',
+			path: '/searchAgents',
 			name: 'adminsearchagents',
 			component: SearchAgents
 		},
