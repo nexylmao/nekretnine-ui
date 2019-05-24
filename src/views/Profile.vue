@@ -6,7 +6,7 @@
 			</b-card>
 		</b-row>
 		<b-row>
-			<div v-if="loading" id="progress" class="mx-auto">
+			<div v-if="loading" id="progress" class="mx-auto card">
 				<b-spinner variant="dark" />
 			</div>
 		</b-row>
@@ -21,7 +21,7 @@
 						<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ agent.phone }} </h6>
 						<p> {{ agent.profileDescription }} </p>
 						<small> pridruzio se : {{ date }} </small>
-						<b-button variant="primary" v-if="canEdit" @click="editProfile" class="w-100">Edit profile</b-button>
+						<b-button variant="primary" v-if="canEdit" @click="editProfile" class="w-100">Edituj profil</b-button>
 					</div>
 				</b-card>
 			</b-col>

@@ -1,13 +1,15 @@
 <template>
 	<div>
 		<b-jumbotron class="agents-search-box" id="landing-jumbotron">
-			<AgentSearchBox @result="showResults"/>
+			<AgentSearchBox @result="showResults" :admin="!!me.account.role"/>
 		</b-jumbotron>
-		<b-row>
-			<b-col class="mx-auto" xl=8>
-				<AgentSearchResultCard v-for="searchResult in searchResults" :key="searchResult.id" :data="searchResult"/>
-			</b-col>
-		</b-row>
+		<b-container>
+			<b-row>
+				<b-col class="mx-auto" xl=8>
+					<AgentSearchResultCard v-for="searchResult in searchResults" :key="searchResult.id" :data="searchResult"/>
+				</b-col>
+			</b-row>
+		</b-container>
 	</div>
 </template>
 
@@ -17,6 +19,7 @@ import AgentSearchResultCard from '@/components/AgentSearchResultCard'
 
 export default {
 	name: 'SearchResults',
+	props: ['me'],
 	components: {
 		AgentSearchBox,
 		AgentSearchResultCard
@@ -41,7 +44,7 @@ export default {
 
 #landing-jumbotron {
 	text-align: center;
-	padding-bottom: 2rem;
+	padding: 
 }
 .search-box {
 	text-align: left;

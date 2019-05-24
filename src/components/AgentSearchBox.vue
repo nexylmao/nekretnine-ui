@@ -2,11 +2,8 @@
 	<div>
 		<b-button variant="primary" @click="hidden = !hidden" > {{ hidden ? 'Pokazi filtere' : 'Sakrij filtere' }} </b-button>
 		<b-form v-if="!hidden" inline class="justify-content-center search-box">
-			<b-form-group id="nameInputGroup" label="Ime:">
-				<b-form-input id="nameInput" type="text" v-model="form.name" />
-			</b-form-group>
-			<b-form-group id="surnameInputGroup" label="Prezime:">
-				<b-form-input id="surnameInput" type="text" v-model="form.surname" />
+			<b-form-group id="nameInputGroup" label="Ime i prezime: ">
+				<b-form-input id="nameInput" type="text" v-model="form.identification" />
 			</b-form-group>
 			<b-form-group :label="'\0'">
 				<b-button type="button" @click="search" variant="primary">Traži</b-button>
@@ -20,12 +17,12 @@
 					<option @click="sortSurnameDescending()">Sortiraj po prezimenu - Opadajuće</option>
 				</select>
 			</b-form-group>
-			<b-form-group :label="'\0'">
+			<b-form-group :label="'\0'" v-if="admin">
 				<b-button type="button" to="/admin/addemail" variant="secondary">Dodaj usera</b-button>
 			</b-form-group>
 		</b-form>
 		<div v-if="loading" id="progress">
-			<b-spinner variant="light" />
+			<b-spinner variant="dark" />
 		</div>
 		<b-card class="mt-3 bg-danger text-white" v-if="errorMessage">
 			{{errorMessage}}
@@ -35,13 +32,12 @@
 
 <script>
 export default {
-	props: ['path'],
+	props: ['path', 'admin'],
 	data () {
 		return {
 			hidden: true,
 			form: {
-				name: null,
-				surname: null
+				identification: null
 			},
 			queries: null,
 			loading: false,
@@ -113,22 +109,22 @@ export default {
 		},
 		sortNameAscending () {
 			if (this.shown) {
-				this.$emit('result', this._sortByStrings(this.shown, 'name'))
+				this.$emit('result', this._sortByStrings(this.shown, 'firstName'))
 			}
 		},
 		sortNameDescending () {
 			if (this.shown) {
-				this.$emit('result', this._sortByStrings(this.shown, 'name').reverse())
+				this.$emit('result', this._sortByStrings(this.shown, 'firstName').reverse())
 			}
 		},
 		sortSurnameAscending () {
 			if (this.shown) {
-				this.$emit('result', this._sortByStrings(this.shown, 'surname'))
+				this.$emit('result', this._sortByStrings(this.shown, 'lastName'))
 			}
 		},
 		sortSurnameDescending () {
 			if (this.shown) {
-				this.$emit('result', this._sortByStrings(this.shown, 'surname').reverse())
+				this.$emit('result', this._sortByStrings(this.shown, 'lastName').reverse())
 			}
 		},
 		restartSort () {

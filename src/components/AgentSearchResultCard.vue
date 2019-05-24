@@ -2,12 +2,16 @@
 	<b-card id="thumbnail" class="search-result-card">
 		<b-row>
 			<b-col sm=12 md=6 lg=4>
-				<img class="agent-profile-photo-search-result" :src="data.realEstate.photos ? data.realEstate.photos[0] : $DEFAULT_REALESTATE">
-			</b-col>
-      <b-col sm=12 md=6 lg=4>
-        <RouterLink :to="'/profile?id=' + data.agent.id"><h2>{{ data.agent.firstName }} {{ data.agent.lastName }}</h2></RouterLink>
-				<p>{{ data.agent.description }}</p>
+				<img class="agent-profile-photo-search-result" :src="data.agent.link ? data.agent.link : $DEFAULT_PROFILE">
       </b-col>
+			<b-col sm=12 md=6 lg=4>
+				<RouterLink :to="'/profile?id=' + data.id"><h2>{{ data.agent.firstName }} {{ data.agent.lastName }}</h2></RouterLink>
+				<p>{{ data.agent.profileDescription }}</p>
+			</b-col>
+			<b-col sm=12 md=6 lg=4>
+				<p class="card p-2"> Broj postavljenih nekretnine : {{ data.stats.RealEstateCount }} </p>
+				<p class="card p-2"> Broj prodatih nekretnina : {{ data.stats.SalesCount }} </p>
+			</b-col>
     </b-row>
 	</b-card>
 </template>
@@ -16,12 +20,7 @@
 import moment from 'moment'
 
 export default {
-	name: 'SearchResultCard',
-	data () {
-		return {
-			testImages: ['https://placekitten.com/200/300', 'https://placebear.com/200/300', 'https://baconmockup.com/200/300/']
-		}
-	},
+	name: 'AgentSearchResultCard',
 	props: {
 		small: {
 			type: Boolean,
@@ -54,9 +53,9 @@ export default {
 
 .agent-profile-photo-search-result {
 	object-fit: scale-down;
-	max-height: 75px;
+	max-height: 200px;
 	height: 100%;
-	max-width: 75px;
+	max-width: 200px;
 	width: 100%;
 }
 </style>

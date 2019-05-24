@@ -10,7 +10,7 @@
 						center
 							h4(class="my-3" id="alert-text") {{ errorMessage || 'Vas link nije validan' }}
 							b-button(variant="danger" to="/") Vratite se na glavnu stranicu
-					div(v-if="tokenValid")
+					b-card(v-if="tokenValid")
 						p.
 							Pozvani ste od strane administratora da se registrujete na ovaj sajt.
 						b-form

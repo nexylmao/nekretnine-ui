@@ -6,17 +6,14 @@
 
 		<b-collapse is-nav id="nav_collapse">
 			<b-navbar-nav class="ml-auto">
-				<b-nav-form>
-					<input class="form-control mr-sm-2" type="search" placeholder="Pretraga agenata..." aria-label="Search">
-					<router-link to="/searchAgents"><button class="btn btn-primary my-2 my-sm-0" type="submit" >Potrazi agente</button></router-link>
-				</b-nav-form>
 				<div v-if="!computedUserLoggedIn">
 					<b-nav-item @click="onLoginButtonClick">Login</b-nav-item>
 				</div>
 				<div v-else>
 					<b-nav-item-dropdown :text="computedText" right class="btn">
 						<b-dropdown-item v-if="agent" @click="myProfile">Moj profil</b-dropdown-item>
-						<b-dropdown-item v-else :to="'/register/agent'">Prijavi se kao agent</b-dropdown-item>
+						<b-dropdown-item v-if="agent || account.role" to="/searchAgents">Pretrazi agente</b-dropdown-item>
+						<b-dropdown-item v-if="!agent" :to="'/register/agent'">Prijavi se kao agent</b-dropdown-item>
 						<b-dropdown-divider />
 						<!-- <b-dropdown-item>Podesavanje naloga</b-dropdown-item> -->
 						<b-dropdown-item v-if="account.role" :to="'/admin/addemail'">Prijavite novi nalog</b-dropdown-item>
@@ -32,6 +29,11 @@
 export default {
 	name: 'NavBar',
 	props: ['id', 'account', 'agent'],
+	data () {
+		return {
+			agentQuery: null
+		}
+	},
 	methods: {
 		myProfile () {
 			if (this.$route.path !== '/profile') {

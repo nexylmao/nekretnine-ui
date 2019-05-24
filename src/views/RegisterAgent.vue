@@ -7,7 +7,7 @@
 					h6 {{notice}}
 				center
 					b-spinner(variant="dark" v-if="loading")
-				div(v-if="!agent")
+				b-card(v-if="!agent")
 					p.
 						Molimo vas, unesite podatke da bi se registrovali kao agent.
 					b-form
