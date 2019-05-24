@@ -85,12 +85,12 @@ export default new Router({
 			component: SearchAgents
 		},
 		{
-			path: '/admin/searchClients',
+			path: '/searchClients',
 			name: 'adminsearchclients',
 			component: SearchClients
 		},
 		{
-			path: '/admin/client/profile',
+			path: '/client/profile',
 			name: 'adminclientprofile',
 			component: ClientProfile
 		},

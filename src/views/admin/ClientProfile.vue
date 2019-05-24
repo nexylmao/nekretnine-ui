@@ -7,20 +7,17 @@
 		</b-row>
 		<b-row>
 			<div v-if="loading" id="progress" class="mx-auto">
-				<b-spinner variant="dark" />
+				<b-spinner variant="dark"/>
 			</div>
-		</b-row>
-		<b-row sm=12 v-if="me.id == id">
-			<h2 class="mx-auto">Ovo ste vi!</h2>
 		</b-row>
 		<b-row>
 			<b-col md=12 lg=3 v-if="agent">
-				<div class="p-2">
+				<b-card class="p-2">
 					<h2> {{ client.firstName }} {{ client.lastName }} </h2>
 					<h6> <FontAwesomeIcon icon="phone"/> &nbsp;{{ client.phone }} </h6>
 					<h6><FontAwesomeIcon icon="faMapMarkerAlt"/> &nbsp; {{ client.address }} {{ client.city }}</h6>
 					<small> pridruzio se : {{ date }} </small>
-				</div>
+				</b-card>
 			</b-col>
 			<b-col>
 				<b-card v-if="stats" class="my-3">

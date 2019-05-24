@@ -2,7 +2,7 @@
 	<b-card id="thumbnail" class="search-result-card">
 		<b-row>
 			<b-col sm=12 md=6 lg=4>
-				<RouterLink :to="'/admin/client/profile?id=' + data.id"><h2>{{ data.client.firstName }} {{ data.client.lastName }}</h2></RouterLink>
+				<RouterLink :to="'/client/profile?id=' + data.id"><h2>{{ data.client.firstName }} {{ data.client.lastName }}</h2></RouterLink>
 				<p>{{ data.client.address }} {{ data.client.city }}</p>
 			</b-col>
 		</b-row>
