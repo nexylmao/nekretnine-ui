@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron header="Nekretnine" lead="Brzo, lako, jeftino, dođite do nekretnina. Sve na jednom mestu!" bg-variant="secondary" text-variant="white" border-variant="dark" id="landing-jumbotron">
+    <b-jumbotron header="Nekretnine" lead="Brzo, lako, jeftino, dođite do nekretnina. Sve na jednom mestu!" bg-variant="secondary" text-variant="white" border-variant="light" id="landing-jumbotron">
 			<SearchBox v-on:result="showResults"/>
 		</b-jumbotron>
     <b-row>

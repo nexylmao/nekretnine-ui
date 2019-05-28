@@ -6,8 +6,8 @@
 			</b-card>
 		</b-row>
 		<b-row>
-			<div v-if="loading" id="progress" class="mx-auto card">
-				<b-spinner variant="dark" />
+			<div v-if="loading" id="progress" class="mx-auto my-3">
+				<b-spinner variant="white" />
 			</div>
 		</b-row>
 		<b-row>

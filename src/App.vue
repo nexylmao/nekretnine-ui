@@ -108,7 +108,7 @@ export default {
 
 <style>
 #app {
-	background-color: orange;
+	background-color: green;
 	min-height: 100vh;
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;

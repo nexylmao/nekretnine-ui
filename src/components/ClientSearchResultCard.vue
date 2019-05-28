@@ -1,5 +1,5 @@
 <template>
-	<b-card id="thumbnail" class="search-result-card">
+	<b-card style="background: rgb(255, 255, 255, 0.7);" id="thumbnail" class="search-result-card">
 		<b-row>
 			<b-col sm=12 md=6 lg=4>
 				<RouterLink :to="'/client/profile?id=' + data.id"><h2>{{ data.client.firstName }} {{ data.client.lastName }}</h2></RouterLink>

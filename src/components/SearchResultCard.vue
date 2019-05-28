@@ -1,5 +1,5 @@
 <template>
-	<b-card id="thumbnail" class="search-result-card">
+	<b-card style="background: rgb(255, 255, 255, 0.7);" id="thumbnail" class="search-result-card">
 		<b-row>
 			<b-col sm=12 md=6 lg=4>
 				<img class="real-estate-photo-search-result" :src="data.realEstate.photos ? data.realEstate.photos[0] : $DEFAULT_REALESTATE">

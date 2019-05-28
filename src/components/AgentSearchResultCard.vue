@@ -1,5 +1,5 @@
 <template>
-	<b-card id="thumbnail" class="search-result-card">
+	<b-card style="background: rgb(255, 255, 255, 0.7);" id="thumbnail" class="search-result-card">
 		<b-row>
 			<b-col sm=12 md=6 lg=4>
 				<img class="agent-profile-photo-search-result" :src="data.agent.link ? data.agent.link : $DEFAULT_PROFILE">
@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import moment from 'moment'
-
 export default {
 	name: 'AgentSearchResultCard',
 	props: {
@@ -31,23 +29,13 @@ export default {
 			type: Object,
 			required: true
 		}
-	},
-	computed: {
-		date () {
-			return moment(this.data.realEstate.createdAt).format('DD. MM. Y.')
-		},
-		soldOn () {
-			return moment(this.data.sale.saleDate).format('DD. MM. Y.')
-		},
-		pricePerSquareMeter () {
-			return (this.data.realEstate.price / this.data.realEstate.area).toFixed(2)
-		}
 	}
 }
 </script>
 
 <style>
 .search-result-card {
+	background-color: rgb(255, 255, 255, 0.7);
 	margin-bottom: 10px;
 }
 

@@ -25,7 +25,7 @@
 					/>
 				</b-carousel>
 
-				<div class="p-2">
+				<div class="p-2 text-white">
 					<h1 style="margin-top: 10px; margin-bottom: 10px">{{ realEstate.address }}</h1>
 				</div>
 
@@ -45,7 +45,7 @@
 					</b-card-text>
 				</b-card>
 
-				<div style="margin-top: 10px; margin-bottom: 10px" class="p-2">
+				<div style="margin-top: 10px; margin-bottom: 10px;" class="p-2 text-white">
 					<small class="grey-text">Ažuriran: {{ getDate() }}</small>
 				</div>
 			</b-col>
@@ -94,6 +94,10 @@
 						</b-row>
 					</b-card-text>
 				</b-card>
+
+				<b-card v-if="!!me.account.role || me.id === agentId">
+					<router-link :to="'/realestate/edit?id=' + id"><b-button>Edituj nekretninu</b-button></router-link>
+				</b-card>
 			</b-col>
 		</b-row>
 	</div>
@@ -105,6 +109,7 @@ import moment from 'moment'
 
 export default {
 	name: 'RealEstatePage',
+	props: ['me'],
 	created () {
 		this.id = this.$route.query.id
 	},

@@ -1,6 +1,14 @@
 <template>
 	<div>
-		<b-button variant="primary" @click="hidden = !hidden" > {{ hidden ? 'Pokazi filtere' : 'Sakrij filtere' }} </b-button>
+		<h1>Pretraga agenata</h1>
+		<b-form inline>
+			<b-form-group class="ml-auto">
+				<b-button variant="primary" @click="hidden = !hidden" > {{ hidden ? 'Pokazi filtere' : 'Sakrij filtere' }} </b-button>
+			</b-form-group>
+			<b-form-group class="mr-auto">
+				<b-button type="button" v-if="admin" to="/admin/addemail" variant="secondary">Dodaj novi nalog</b-button>
+			</b-form-group>
+		</b-form>
 		<b-form v-if="!hidden" inline class="justify-content-center search-box">
 			<b-form-group id="nameInputGroup" label="Ime i prezime: ">
 				<b-form-input id="nameInput" type="text" v-model="form.identification" />
@@ -16,9 +24,6 @@
 					<option @click="sortSurnameAscending()">Sortiraj po prezimenu - Rastuće</option>
 					<option @click="sortSurnameDescending()">Sortiraj po prezimenu - Opadajuće</option>
 				</select>
-			</b-form-group>
-			<b-form-group :label="'\0'" v-if="admin">
-				<b-button type="button" to="/admin/addemail" variant="secondary">Dodaj usera</b-button>
 			</b-form-group>
 		</b-form>
 		<div v-if="loading" id="progress">

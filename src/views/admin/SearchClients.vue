@@ -42,7 +42,7 @@ export default {
 
 #landing-jumbotron {
 	text-align: center;
-	padding-bottom: 2rem;
+	/* padding-bottom: 2rem; */
 }
 .search-box {
 	text-align: left;

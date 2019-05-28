@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers';
 export default {
 	name: 'EditProfile',
 	props: ['me'],
@@ -72,7 +71,6 @@ export default {
 			})
 			this.loading = false
 
-			let json = data.json()
 			if (data.status !== 200) {
 				if (data.status === 500) {
 					this.notice = 'Neki podaci nisu formatirani kako treba!'
