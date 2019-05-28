@@ -14,6 +14,7 @@
 						<b-dropdown-item v-if="agent" @click="myProfile">Moj profil</b-dropdown-item>
 						<b-dropdown-item v-if="agent || account.role" to="/searchAgents">Pretrazi agente</b-dropdown-item>
 						<b-dropdown-item v-if="agent || account.role" to="/searchClients">Pretrazi klijente</b-dropdown-item>
+						<b-dropdown-item v-if="agent || account.role" to="/sale/establish">Uspostavi prodaju</b-dropdown-item>
 						<b-dropdown-item v-if="!agent" :to="'/register/agent'">Prijavi se kao agent</b-dropdown-item>
 						<b-dropdown-divider />
 						<!-- <b-dropdown-item>Podesavanje naloga</b-dropdown-item> -->
