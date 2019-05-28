@@ -108,7 +108,10 @@ export default {
 
 <style>
 #app {
-	background-color: green;
+	/* background-color: green; */
+	background: url('https://images.pexels.com/photos/705425/pexels-photo-705425.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1920&w=1080');
+	background-size: cover;
+	background-repeat: no-repeat;
 	min-height: 100vh;
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
